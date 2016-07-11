@@ -20,7 +20,7 @@
 	</modules>
 
 	<name>Spring Data and In-Memory Data Management in Action</name>
-	<description>Spring Data and In-Memory Data Management in Action</description>
+	<description>Spring Data and In-Memory Data Management in Action presentation at SpringOne Platform 2016</description>
 	<url>https://2016.event.springoneplatform.io/schedule/sessions/spring_data_and_in_memory_data_management_in_action.html</url>
 
 	<organization>
@@ -87,6 +87,8 @@
 	</scm>
 
 	<properties>
+		<maven-compiler-plugin.version>3.3</maven-compiler-plugin.version>
+		<maven-surefire-plugin.version>2.19.1</maven-surefire-plugin.version>
 		<multithreadedtc.version>1.01</multithreadedtc.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<spring.version>4.2.7.RELEASE</spring.version>
@@ -98,17 +100,17 @@
 	<repositories>
 		<repository>
 			<id>spring-libs-release</id>
-			<name>Spring Maven libs-release Repository</name>
+			<name>Spring libs-release Maven Repository</name>
 			<url>http://repo.spring.io/libs-release</url>
 		</repository>
 		<repository>
 			<id>spring-libs-milestone</id>
-			<name>Spring Maven libs-milestone Repository</name>
+			<name>Spring libs-milestone Maven Repository</name>
 			<url>http://repo.spring.io/libs-milestone</url>
 		</repository>
 		<repository>
 			<id>gemstone-release</id>
-			<name>GemStone Maven RELEASE Repository</name>
+			<name>GemStone RELEASE Maven Repository</name>
 			<url>http://dist.gemstone.com/maven/release</url>
 			<!-- <url>http://dist.gemstone.com.s3.amazonaws.com/maven/release</url> -->
 			<snapshots>
@@ -142,6 +144,7 @@
 				<groupId>org.springframework.shell</groupId>
 				<artifactId>spring-shell</artifactId>
 				<version>${spring-shell.version}</version>
+				<scope>runtime</scope>
 			</dependency>
 		</dependencies>
 	</dependencyManagement>
@@ -158,5 +161,34 @@
 			<scope>test</scope>
 		</dependency>
 	</dependencies>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>${maven-compiler-plugin.version}</version>
+				<configuration>
+					<compilerArgs>
+						<arg>-Xlint:unchecked</arg>
+						<!-- <classpath>${java.home}/lib/tools.jar</classpath> -->
+					</compilerArgs>
+					<source>${java.version}</source>
+					<target>${java.version}</target>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<version>${maven-surefire-plugin.version}</version>
+				<configuration>
+					<includes>
+						<include>**/*Test.java</include>
+						<include>**/*Tests.java</include>
+					</includes>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
 
 </project>
