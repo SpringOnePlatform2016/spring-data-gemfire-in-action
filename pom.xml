@@ -16,7 +16,7 @@
 	<packaging>pom</packaging>
 
 	<modules>
-		<module>repositories-example</module>
+		<module>repository-example</module>
 	</modules>
 
 	<name>Spring Data and In-Memory Data Management in Action</name>
