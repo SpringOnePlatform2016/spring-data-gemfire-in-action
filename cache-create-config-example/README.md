@@ -109,9 +109,13 @@ cf create-service p-gemfire GemFireServicePlan1 customer-cache
 ```
 ### Viewing The Cluster With Pulse
 
+Clicking on the 'Management' link in the console of Cloud Foundry brings up the Gemfire management console Pulse.
 
+![The Manage Link](gemfire-manage-link-appconsole.png)
 
+Pulse is a stand alone web application, which using JMX, provides a window into the health of the cluster.
 
+![Pulse](pulse.png)
 
 ### Connecting To The Cluster With gfsh
 
