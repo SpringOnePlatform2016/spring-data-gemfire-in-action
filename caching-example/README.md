@@ -1,6 +1,6 @@
 # Caching Sample
 
-## What this sample is?
+## What this sample demonstrates?
 
 A basic sample of how to create a Spring Boot application that makes use of the JSR-107 approach to working with an in memory cache. The other thing of note is this sample assumes the cache in in a Cloud Environment (specifically PCF)
 
@@ -25,3 +25,13 @@ http://cloud.spring.io/spring-cloud-connectors/
 This is done in coordination with:
 
 http://cloud.spring.io/spring-cloud-connectors/spring-cloud-cloud-foundry-connector.html
+
+## Setting Up A Gemfire Cluster on PCF
+
+```shell
+
+cf create-service p-gemfire GemFireServicePlan1 customer-cache
+
+```
+
+

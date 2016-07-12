@@ -23,4 +23,5 @@ public class CacheConfiguration extends AbstractCloudConfig {
 	CustomerKeyGenerator getKeyGenerator() {
 		return new CustomerKeyGenerator();
 	}
+	
 }
