@@ -2,7 +2,9 @@ package example.app.repo;
 
 import java.util.List;
 
+import org.springframework.data.domain.Sort;
 import org.springframework.data.gemfire.repository.GemfireRepository;
+import org.springframework.data.gemfire.repository.query.annotation.Limit;
 import org.springframework.data.gemfire.repository.query.annotation.Trace;
 
 import example.app.model.Contact;
@@ -15,6 +17,7 @@ import example.app.model.State;
  *
  * @author John Blum
  * @see example.app.model.Contact
+ * @see org.springframework.data.gemfire.repository.GemfireRepository
  * @since 1.0.0
  */
 @SuppressWarnings("unused")
@@ -36,7 +39,8 @@ public interface ContactsRepository extends GemfireRepository<Contact, Long> {
 	List<Contact> findByPersonLastName(String lastName);
 
 	@Trace
-	List<Contact> findByPersonLastNameLike(String lastNameWildcard);
+	@Limit(5)
+	List<Contact> findByPersonLastNameLike(String lastNameWildcard, Sort sort);
 
 	@Trace
 	List<Contact> findByPhoneNumber(PhoneNumber phoneNumber);

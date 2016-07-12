@@ -19,6 +19,7 @@ import org.junit.After;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
@@ -50,6 +51,10 @@ public class ContactsRepositoryTests {
 
 	protected Long generateId() {
 		return ID_GENERATOR.incrementAndGet();
+	}
+
+	protected Sort newSort(String... properties) {
+		return new Sort(properties);
 	}
 
 	protected Contact save(Contact contact) {
@@ -212,22 +217,44 @@ public class ContactsRepositoryTests {
 		Contact joeDirt = save(newContact(newPerson("Joe", "Dirt"), "joeDirt@office.com"));
 		Contact jackHandy = save(newContact(newPerson("Jack", "Handy"), "jackHandy@home.com"));
 
-		List<Contact> jonAndJoeContacts = contactsRepository.findByPersonLastNameLike("D%");
+		List<Contact> jonAndJoeContacts = contactsRepository.findByPersonLastNameLike("D%", newSort("person.lastName"));
 
 		assertThat(jonAndJoeContacts).isNotNull();
 		assertThat(jonAndJoeContacts.size()).isEqualTo(2);
-		assertThat(jonAndJoeContacts).containsAll(Arrays.asList(jonDoe, joeDirt));
+		assertThat(jonAndJoeContacts).isEqualTo(Arrays.asList(joeDirt, jonDoe));
 
-		List<Contact> jackHandyContact = contactsRepository.findByPersonLastNameLike("%and%");
+		List<Contact> jackHandyContact = contactsRepository.findByPersonLastNameLike("%and%", newSort("person.lastName"));
 
 		assertThat(jackHandyContact).isNotNull();
 		assertThat(jackHandyContact.size()).isEqualTo(1);
 		assertThat(jackHandyContact).containsAll(Collections.singletonList(jackHandy));
 
-		List<Contact> noContacts = contactsRepository.findByPersonLastNameLike("Smi%");
+		List<Contact> noContacts = contactsRepository.findByPersonLastNameLike("Smi%", newSort("person.lastName"));
 
 		assertThat(noContacts).isNotNull();
 		assertThat(noContacts).isEmpty();
+	}
+
+	@Test
+	public void findByLastNameLikeLimitedToFiveResultsFindsExpectedContacts() {
+		Contact jonDoe = save(newContact(newPerson("Jon", "Doe"), "jonDoe@home.com"));
+		Contact janeDoe = save(newContact(newPerson("Jane", "Doe"), "janeDoe@home.com"));
+		Contact cookieDoe = save(newContact(newPerson("Cookie", "Doe"), "cookieDoe@home.com"));
+		Contact pieDoe = save(newContact(newPerson("Pie", "Doe"), "pieDoe@home.com"));
+		Contact sourDoe = save(newContact(newPerson("Sour", "Doe"), "sourDoe@home.com"));
+		Contact moeDoe = save(newContact(newPerson("Moe", "Doe"), "moeDoe@home.com"));
+		Contact joeDoe = save(newContact(newPerson("Joe", "Doe"), "joeDoe@home.com"));
+		Contact hoeDoe = save(newContact(newPerson("Hoe", "Doe"), "hoeDoe@home.com"));
+		Contact froDoe = save(newContact(newPerson("Fro", "Doe"), "froDoe@home.com"));
+
+		List<Contact> expectedContacts = Arrays.asList(cookieDoe, froDoe, hoeDoe, janeDoe, joeDoe);
+
+		List<Contact> doeContacts = contactsRepository.findByPersonLastNameLike("Doe%", newSort("person.firstName"));
+
+		assertThat(doeContacts).isNotNull();
+		assertThat(doeContacts.size()).isEqualTo(5);
+		assertThat(doeContacts).describedAs("Expected [%1$s];%n	 but was [%2$s]", expectedContacts, doeContacts)
+			.isEqualTo(expectedContacts);
 	}
 
 	@Test
