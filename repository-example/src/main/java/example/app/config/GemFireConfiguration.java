@@ -7,7 +7,10 @@ import com.gemstone.gemfire.cache.RegionAttributes;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.DependsOn;
 import org.springframework.data.gemfire.CacheFactoryBean;
+import org.springframework.data.gemfire.IndexFactoryBean;
+import org.springframework.data.gemfire.IndexType;
 import org.springframework.data.gemfire.PartitionedRegionFactoryBean;
 import org.springframework.data.gemfire.RegionAttributesFactoryBean;
 
@@ -79,5 +82,33 @@ public class GemFireConfiguration {
 		contactsRegionAttributes.setValueConstraint(Contact.class);
 
 		return contactsRegionAttributes;
+	}
+
+	@Bean
+	@DependsOn("Contacts")
+	public IndexFactoryBean emailIndex(GemFireCache gemfireCache) {
+		IndexFactoryBean lastNameIndex = new IndexFactoryBean();
+
+		lastNameIndex.setCache(gemfireCache);
+		lastNameIndex.setExpression("email");
+		lastNameIndex.setFrom("/Contacts");
+		lastNameIndex.setName("emailIdx");
+		lastNameIndex.setType(IndexType.HASH);
+
+		return lastNameIndex;
+	}
+
+	@Bean
+	@DependsOn("Contacts")
+	public IndexFactoryBean lastNameIndex(GemFireCache gemfireCache) {
+		IndexFactoryBean lastNameIndex = new IndexFactoryBean();
+
+		lastNameIndex.setCache(gemfireCache);
+		lastNameIndex.setExpression("person.lastName");
+		lastNameIndex.setFrom("/Contacts");
+		lastNameIndex.setName("personLastNameIdx");
+		lastNameIndex.setType(IndexType.HASH);
+
+		return lastNameIndex;
 	}
 }
