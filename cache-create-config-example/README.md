@@ -30,6 +30,42 @@ Each plan represents a cluster (Locators and Servers). Each plan can be configur
 
 ![Configuring The Tile](gemfire-plan-configure.png)
 
+## Using The Tile
+
+To make use of the tile the following needs to be installed:
+
+### Cloud Foundry CLI
+
+Cloud Foundry CLI for pushing and managing apps, creating and binding services, and more.
+
+https://console.run.pivotal.io/2/tools
+
+### The Gemfire CLI plugin
+
+GemFire CLI is provided as a CF CLI plugin that includes commands for restarting, and configuring GemFire service instances, as well as downloading GemFire configuration and logs, on a per cluster basis.
+
+http://docs.pivotal.io/gemfire-cf/gfe-cli.html
+
+```shell
+
+Downloads chmod a+x ./cf-gemfire-cli-darwin-amd64-1.6.0
+Downloads cf install-plugin ./cf-gemfire-cli-darwin-amd64-1.6.0
+
+**Attention: Plugins are binaries written by potentially untrusted authors. Install and use plugins at your own risk.**
+
+Installing plugin ./cf-gemfire-cli-darwin-amd64-1.6.0...
+OK
+Plugin GemFire v1.7.0 successfully installed.
+
+```
+NOTE: To install a newer version, uninstall old version and install the new one
+
+### Install Gemfire
+
+This gets the Gemfire binaries set up to use GFSH. GemFire gfsh (pronounced "gee-fish") provides a single, powerful command-line interface from which you can launch, manage, and monitor GemFire processes, data, and applications.
+
+http://gemfire.docs.pivotal.io/docs-gemfire/latest/getting_started/installation/install_standalone.html#concept_0129F6A1D0EB42C4A3D24861AF2C5425
+
 
 
 cf marketplace -s p-gemfire
