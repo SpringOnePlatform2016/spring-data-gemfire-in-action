@@ -62,9 +62,33 @@ NOTE: To install a newer version, uninstall old version and install the new one
 
 ### Install Gemfire
 
-This gets the Gemfire binaries set up to use GFSH. GemFire gfsh (pronounced "gee-fish") provides a single, powerful command-line interface from which you can launch, manage, and monitor GemFire processes, data, and applications.
+This gets the Gemfire binaries set up and environmental variables in place to use gfsh. GemFire gfsh (pronounced "gee-fish") provides a single, powerful command-line interface from which you can launch, manage, and monitor GemFire processes, data, and applications.
 
 http://gemfire.docs.pivotal.io/docs-gemfire/latest/getting_started/installation/install_standalone.html#concept_0129F6A1D0EB42C4A3D24861AF2C5425
+
+On a MAC its easy with Brew:
+
+```shell
+
+$ brew tap pivotal/tap && brew install gemfire
+
+```
+
+With Gemfire installed and configured, gfsh can be access:
+
+```shell
+
+➜  actionable-spring-gemfire git:(master) ✗ gfsh
+    _________________________     __
+   / _____/ ______/ ______/ /____/ /
+  / /  __/ /___  /_____  / _____  /
+ / /__/ / ____/  _____/ / /    / /  
+/______/_/      /______/_/    /_/    v8.2.1
+
+Monitor and Manage GemFire
+gfsh>
+
+```
 
 
 
