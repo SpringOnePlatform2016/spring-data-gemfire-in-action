@@ -14,7 +14,7 @@ import example.app.model.PhoneNumber;
 import example.app.model.State;
 
 /**
- * ContactsRepository is a data access object for performing CRUD and querying operations on {@link Contact}s.
+ * ContactRepository is a data access object for performing CRUD and querying operations on {@link Contact}s.
  *
  * @author John Blum
  * @see example.app.model.Contact
@@ -22,7 +22,7 @@ import example.app.model.State;
  * @since 1.0.0
  */
 @SuppressWarnings("unused")
-public interface ContactsRepository extends GemfireRepository<Contact, Long> {
+public interface ContactRepository extends GemfireRepository<Contact, Long> {
 
 	@Trace
 	List<Contact> findByAddressCityAndAddressState(String city, State state);

@@ -29,11 +29,11 @@ import example.app.model.Gender;
 import example.app.model.State;
 
 /**
- * Test suite of test cases testing the contract and functionality of the {@link ContactsRepository} DAO interface.
+ * Test suite of test cases testing the contract and functionality of the {@link ContactRepository} DAO interface.
  *
  * @author John Blum
  * @see org.junit.Test
- * @see example.app.repo.ContactsRepository
+ * @see ContactRepository
  * @since 1.0.0
  */
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -44,7 +44,7 @@ public class ContactsRepositoryTests {
 	protected static final AtomicLong ID_GENERATOR = new AtomicLong(0l);
 
 	@Autowired
-	private ContactsRepository contactsRepository;
+	private ContactRepository contactRepository;
 
 	@Resource(name = "Contacts")
 	private Region<Long, Contact> contacts;
@@ -62,7 +62,7 @@ public class ContactsRepositoryTests {
 			contact.setId(generateId());
 		}
 
-		return contactsRepository.save(contact);
+		return contactRepository.save(contact);
 	}
 
 	@After
@@ -77,15 +77,15 @@ public class ContactsRepositoryTests {
 			.with(newPhoneNumber("503", "555", "1234"))
 			.with(generateId());
 
-		contactsRepository.save(savedJonDoe);
+		contactRepository.save(savedJonDoe);
 
-		Contact loadedJonDoe = contactsRepository.findOne(savedJonDoe.getId());
+		Contact loadedJonDoe = contactRepository.findOne(savedJonDoe.getId());
 
 		assertThat(loadedJonDoe).isEqualTo(savedJonDoe);
 
-		contactsRepository.delete(loadedJonDoe);
+		contactRepository.delete(loadedJonDoe);
 
-		assertThat(contactsRepository.count()).isEqualTo(0);
+		assertThat(contactRepository.count()).isEqualTo(0);
 	}
 
 	@Test
@@ -93,11 +93,11 @@ public class ContactsRepositoryTests {
 		Contact jonDoe = save(newContact(newPerson("Jon","Doe"), "jonDoe@gmail.com"));
 		Contact jackHandy = save(newContact(newPerson("Jack", "Handy"), "jackHandy@yahoo.com"));
 
-		Contact jonDoeByEmail = contactsRepository.findByEmail(jonDoe.getEmail());
+		Contact jonDoeByEmail = contactRepository.findByEmail(jonDoe.getEmail());
 
 		assertThat(jonDoeByEmail).isEqualTo(jonDoe);
 
-		Contact jackHandyByEmail = contactsRepository.findByEmail(jackHandy.getEmail());
+		Contact jackHandyByEmail = contactRepository.findByEmail(jackHandy.getEmail());
 
 		assertThat(jackHandyByEmail).isEqualTo(jackHandy);
 	}
@@ -108,19 +108,19 @@ public class ContactsRepositoryTests {
 		Contact janeDoe = save(newContact(newPerson("Jane", "Doe"), "janeDoe@yahoo.com"));
 		Contact jackHandy = save(newContact(newPerson("Jack", "Handy"), "jackHandy@gmail.com"));
 
-		List<Contact> gmailEmailAccounts = contactsRepository.findByEmailLike("%@gmail.com");
+		List<Contact> gmailEmailAccounts = contactRepository.findByEmailLike("%@gmail.com");
 
 		assertThat(gmailEmailAccounts).isNotNull();
 		assertThat(gmailEmailAccounts.size()).isEqualTo(2);
 		assertThat(gmailEmailAccounts).containsAll(Arrays.asList(jonDoe, jackHandy));
 
-		List<Contact> yahooEmailAccounts = contactsRepository.findByEmailLike("%@yahoo.com");
+		List<Contact> yahooEmailAccounts = contactRepository.findByEmailLike("%@yahoo.com");
 
 		assertThat(yahooEmailAccounts).isNotNull();
 		assertThat(yahooEmailAccounts.size()).isEqualTo(1);
 		assertThat(yahooEmailAccounts).containsAll(Collections.singletonList(janeDoe));
 
-		List<Contact> noAolEmailAccounts = contactsRepository.findByEmailLike("%@aol.com");
+		List<Contact> noAolEmailAccounts = contactRepository.findByEmailLike("%@aol.com");
 
 		assertThat(noAolEmailAccounts).isNotNull();
 		assertThat(noAolEmailAccounts).isEmpty();
@@ -133,36 +133,36 @@ public class ContactsRepositoryTests {
 		Contact benDover = save(newContact(newPerson("Ben", "Dover"), newAddress("100 Main St.", "San Francisco", State.CALIFORNIA, "9876")));
 		Contact jackHandy = save(newContact(newPerson("Jack", "Handy"), newAddress("100 Main St.", "Portland", State.MAINE, "12345")));
 
-		List<Contact> contacts = contactsRepository.findByAddressCityAndAddressState("Portland", State.OREGON);
+		List<Contact> contacts = contactRepository.findByAddressCityAndAddressState("Portland", State.OREGON);
 
 		assertThat(contacts).isNotNull();
 		assertThat(contacts.size()).isEqualTo(1);
 		assertThat(contacts).containsAll(Collections.singletonList(jonDoe));
 
-		contacts = contactsRepository.findByAddressCityAndAddressState("Portland", State.MAINE);
+		contacts = contactRepository.findByAddressCityAndAddressState("Portland", State.MAINE);
 
 		assertThat(contacts).isNotNull();
 		assertThat(contacts.size()).isEqualTo(1);
 		assertThat(contacts).containsAll(Collections.singletonList(jackHandy));
 
-		contacts = contactsRepository.findByAddressCityAndAddressState("Eugene", State.OREGON);
+		contacts = contactRepository.findByAddressCityAndAddressState("Eugene", State.OREGON);
 
 		assertThat(contacts).isNotNull();
 		assertThat(contacts.size()).isEqualTo(1);
 		assertThat(contacts).containsAll(Collections.singletonList(joeDirt));
 
-		contacts = contactsRepository.findByAddressCityAndAddressState("San Francisco", State.CALIFORNIA);
+		contacts = contactRepository.findByAddressCityAndAddressState("San Francisco", State.CALIFORNIA);
 
 		assertThat(contacts).isNotNull();
 		assertThat(contacts.size()).isEqualTo(1);
 		assertThat(contacts).containsAll(Collections.singletonList(benDover));
 
-		contacts = contactsRepository.findByAddressCityAndAddressState("Hollywood", State.CALIFORNIA);
+		contacts = contactRepository.findByAddressCityAndAddressState("Hollywood", State.CALIFORNIA);
 
 		assertThat(contacts).isNotNull();
 		assertThat(contacts).isEmpty();
 
-		contacts = contactsRepository.findByAddressCityAndAddressState("Hollywood", State.NORTH_DAKOTA);
+		contacts = contactRepository.findByAddressCityAndAddressState("Hollywood", State.NORTH_DAKOTA);
 
 		assertThat(contacts).isNotNull();
 		assertThat(contacts).isEmpty();
@@ -174,13 +174,13 @@ public class ContactsRepositoryTests {
 		Contact janeDoe = save(newContact(newPerson("Jane", "Doe").as(Gender.FEMALE), "janeDoe@home.com"));
 		Contact pieDoe = save(newContact(newPerson("Pie", "Doe").as(Gender.FEMALE), "pieDoe@school.com"));
 
-		List<Contact> femaleContacts = contactsRepository.findByPersonGender(Gender.FEMALE);
+		List<Contact> femaleContacts = contactRepository.findByPersonGender(Gender.FEMALE);
 
 		assertThat(femaleContacts).isNotNull();
 		assertThat(femaleContacts.size()).isEqualTo(2);
 		assertThat(femaleContacts).containsAll(Arrays.asList(janeDoe, pieDoe));
 
-		List<Contact> maleContacts = contactsRepository.findByPersonGender(Gender.MALE);
+		List<Contact> maleContacts = contactRepository.findByPersonGender(Gender.MALE);
 
 		assertThat(maleContacts).isNotNull();
 		assertThat(maleContacts.size()).isEqualTo(1);
@@ -193,19 +193,19 @@ public class ContactsRepositoryTests {
 		Contact janeDoe = save(newContact(newPerson("Jane", "Doe"), "janeDoe@home.com"));
 		Contact jackHandy = save(newContact(newPerson("Jack", "Handy"), "jackHandy@home.com"));
 
-		List<Contact> doeContacts = contactsRepository.findByPersonLastName("Doe");
+		List<Contact> doeContacts = contactRepository.findByPersonLastName("Doe");
 
 		assertThat(doeContacts).isNotNull();
 		assertThat(doeContacts.size()).isEqualTo(2);
 		assertThat(doeContacts).containsAll(Arrays.asList(jonDoe, janeDoe));
 
-		List<Contact> handyContacts = contactsRepository.findByPersonLastName("Handy");
+		List<Contact> handyContacts = contactRepository.findByPersonLastName("Handy");
 
 		assertThat(handyContacts).isNotNull();
 		assertThat(handyContacts.size()).isEqualTo(1);
 		assertThat(handyContacts).containsAll(Collections.singletonList(jackHandy));
 
-		List<Contact> noContacts = contactsRepository.findByPersonLastName("Smith");
+		List<Contact> noContacts = contactRepository.findByPersonLastName("Smith");
 
 		assertThat(noContacts).isNotNull();
 		assertThat(noContacts).isEmpty();
@@ -217,19 +217,19 @@ public class ContactsRepositoryTests {
 		Contact joeDirt = save(newContact(newPerson("Joe", "Dirt"), "joeDirt@office.com"));
 		Contact jackHandy = save(newContact(newPerson("Jack", "Handy"), "jackHandy@home.com"));
 
-		List<Contact> jonAndJoeContacts = contactsRepository.findByPersonLastNameLike("D%", newSort("person.lastName"));
+		List<Contact> jonAndJoeContacts = contactRepository.findByPersonLastNameLike("D%", newSort("person.lastName"));
 
 		assertThat(jonAndJoeContacts).isNotNull();
 		assertThat(jonAndJoeContacts.size()).isEqualTo(2);
 		assertThat(jonAndJoeContacts).isEqualTo(Arrays.asList(joeDirt, jonDoe));
 
-		List<Contact> jackHandyContact = contactsRepository.findByPersonLastNameLike("%and%", newSort("person.lastName"));
+		List<Contact> jackHandyContact = contactRepository.findByPersonLastNameLike("%and%", newSort("person.lastName"));
 
 		assertThat(jackHandyContact).isNotNull();
 		assertThat(jackHandyContact.size()).isEqualTo(1);
 		assertThat(jackHandyContact).containsAll(Collections.singletonList(jackHandy));
 
-		List<Contact> noContacts = contactsRepository.findByPersonLastNameLike("Smi%", newSort("person.lastName"));
+		List<Contact> noContacts = contactRepository.findByPersonLastNameLike("Smi%", newSort("person.lastName"));
 
 		assertThat(noContacts).isNotNull();
 		assertThat(noContacts).isEmpty();
@@ -249,7 +249,7 @@ public class ContactsRepositoryTests {
 
 		List<Contact> expectedContacts = Arrays.asList(cookieDoe, froDoe, hoeDoe, janeDoe, joeDoe);
 
-		List<Contact> doeContacts = contactsRepository.findByPersonLastNameLike("Doe%", newSort("person.firstName"));
+		List<Contact> doeContacts = contactRepository.findByPersonLastNameLike("Doe%", newSort("person.firstName"));
 
 		assertThat(doeContacts).isNotNull();
 		assertThat(doeContacts.size()).isEqualTo(5);
@@ -263,19 +263,19 @@ public class ContactsRepositoryTests {
 		Contact janeDoe = save(newContact(newPerson("Jane", "Doe"), newPhoneNumber("503", "555", "1234")));
 		Contact jackHandy = save(newContact(newPerson("Jack", "Handy"), newPhoneNumber("971", "555", "1234")));
 
-		List<Contact> doeContacts = contactsRepository.findByPhoneNumber(newPhoneNumber("503", "555", "1234"));
+		List<Contact> doeContacts = contactRepository.findByPhoneNumber(newPhoneNumber("503", "555", "1234"));
 
 		assertThat(doeContacts).isNotNull();
 		assertThat(doeContacts.size()).isEqualTo(2);
 		assertThat(doeContacts).containsAll(Arrays.asList(jonDoe, janeDoe));
 
-		List<Contact> handyContacts = contactsRepository.findByPhoneNumber(newPhoneNumber("971", "555", "1234"));
+		List<Contact> handyContacts = contactRepository.findByPhoneNumber(newPhoneNumber("971", "555", "1234"));
 
 		assertThat(handyContacts).isNotNull();
 		assertThat(handyContacts.size()).isEqualTo(1);
 		assertThat(handyContacts).containsAll(Collections.singletonList(jackHandy));
 
-		List<Contact> noContacts = contactsRepository.findByPhoneNumber(newPhoneNumber("503", "555", "9876"));
+		List<Contact> noContacts = contactRepository.findByPhoneNumber(newPhoneNumber("503", "555", "9876"));
 
 		assertThat(noContacts).isNotNull();
 		assertThat(noContacts).isEmpty();
