@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.data.domain.Sort;
 import org.springframework.data.gemfire.repository.GemfireRepository;
+import org.springframework.data.gemfire.repository.query.annotation.Hint;
 import org.springframework.data.gemfire.repository.query.annotation.Limit;
 import org.springframework.data.gemfire.repository.query.annotation.Trace;
 
@@ -27,6 +28,7 @@ public interface ContactsRepository extends GemfireRepository<Contact, Long> {
 	List<Contact> findByAddressCityAndAddressState(String city, State state);
 
 	@Trace
+	@Hint("EmailIdx")
 	Contact findByEmail(String email);
 
 	@Trace
@@ -36,6 +38,7 @@ public interface ContactsRepository extends GemfireRepository<Contact, Long> {
 	List<Contact> findByPersonGender(Gender gender);
 
 	@Trace
+	@Hint("PersonLastNameIdx")
 	List<Contact> findByPersonLastName(String lastName);
 
 	@Trace

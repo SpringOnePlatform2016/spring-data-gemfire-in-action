@@ -92,7 +92,7 @@ public class GemFireConfiguration {
 		lastNameIndex.setCache(gemfireCache);
 		lastNameIndex.setExpression("email");
 		lastNameIndex.setFrom("/Contacts");
-		lastNameIndex.setName("emailIdx");
+		lastNameIndex.setName("EmailIdx");
 		lastNameIndex.setType(IndexType.HASH);
 
 		return lastNameIndex;
@@ -106,7 +106,7 @@ public class GemFireConfiguration {
 		lastNameIndex.setCache(gemfireCache);
 		lastNameIndex.setExpression("person.lastName");
 		lastNameIndex.setFrom("/Contacts");
-		lastNameIndex.setName("personLastNameIdx");
+		lastNameIndex.setName("PersonLastNameIdx");
 		lastNameIndex.setType(IndexType.HASH);
 
 		return lastNameIndex;
