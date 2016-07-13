@@ -45,6 +45,20 @@
 			<artifactId>spring-cloud-cloudfoundry-connector</artifactId>
 		</dependency>
 		<dependency>
+			<groupId>org.springframework.cloud</groupId>
+			<artifactId>spring-cloud-localconfig-connector</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>io.pivotal.spring.cloud</groupId>
+			<artifactId>spring-cloud-gemfire-cloudfoundry-connector</artifactId>
+			<version>1.0.0.RELEASE</version>
+		</dependency>
+		<dependency>
+			<groupId>io.pivotal.spring.cloud</groupId>
+			<artifactId>spring-cloud-gemfire-spring-connector</artifactId>
+			<version>1.0.0.RELEASE</version>
+		</dependency>
+		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
@@ -58,6 +72,7 @@
 				<artifactId>spring-boot-maven-plugin</artifactId>
 			</plugin>
 		</plugins>
+		<finalName>caching-example</finalName>
 	</build>
 
 	<repositories>
@@ -68,6 +83,11 @@
 			<snapshots>
 				<enabled>true</enabled>
 			</snapshots>
+		</repository>
+		<repository>
+			<id>spring-release</id>
+			<name>Spring Maven RELEASE Repository</name>
+			<url>http://repo.spring.io/libs-release</url>
 		</repository>
 		<repository>
 			<id>spring-milestones</id>
@@ -95,6 +115,7 @@
 				<enabled>false</enabled>
 			</snapshots>
 		</pluginRepository>
+
 	</pluginRepositories>
 
 </project>

@@ -1,0 +1,9 @@
+---
+applications:
+- name: caching-example
+  memory: 1G
+  host: caching-example
+  instances: 1
+  path: target/caching-example.jar
+  services:
+  - customer-cache
