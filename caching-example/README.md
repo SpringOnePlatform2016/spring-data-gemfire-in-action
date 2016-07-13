@@ -105,8 +105,6 @@ buildpack: java_buildpack_offline
 
 ```
 
-
-
 ## Important Related Projects
 
 Spring Cloud Connectors allows us to connect to the Cache service managed by Pivotal Cloud Foundry:
@@ -121,8 +119,6 @@ http://cloud.spring.io/spring-cloud-connectors/spring-cloud-cloud-foundry-connec
 ## References
 
 https://docs.cloudfoundry.org/buildpacks/java/spring-service-bindings.html#cloud-profiles-java
-
-http://cloud.spring.io/spring-cloud-connectors/spring-cloud-connectors.html
 
 http://docs.pivotal.io/gemfire-cf/gfe-cli.html#install
 
