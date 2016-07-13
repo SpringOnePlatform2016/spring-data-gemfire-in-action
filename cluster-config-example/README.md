@@ -60,6 +60,46 @@ cacheserver2 | 10.0.16.70(cacheserver2:5545)<v2>:53596
 gfsh>
 
 ```
+### Creating The Configuration
+
+There are a few ways to configure the Cluster running on PCF:
+
+1. Create an Gemfire Cache.xml
+
+2. Create a Spring Data Gemfire xml file
+
+3. Use gfsh
+
+#### Spring Data Gemfire Configuration
+
+To using Spring Data Gemfire the following must be done:
+
+1. Create the Spring Data Gemfire file
+
+2. Package the xml file from step 1 (and any dependancies it references) into a jar file
+
+3. Create a folder structure cluster/lib and put the jar from step two into the lib folder
+
+4. Package the cluster folder (and sub folders) into a zip file called cluster.zip
+
+The following command will deploy the configuration.
+
+```shell
+
+cf restart-gemfire customer-cache --cluster-config ./cluster.zip --spring-xml /cache-config.xml
+
+```
+
+#### gfsh Configuration
+
+
+
+
+
+
+### Push Up configuration
+
+
 
 ### Next Steps
 
