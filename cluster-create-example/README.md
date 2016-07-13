@@ -116,3 +116,7 @@ Clicking on the 'Management' link in the console of Cloud Foundry brings up the 
 Pulse is a stand alone web application, which using JMX, provides a window into the health of the cluster.
 
 ![Pulse](pulse.png)
+
+### Next Steps
+
+[Configure Gemfire on PCF](https://github.com/jxblum/actionable-spring-gemfire/tree/master/cluster-config-example)
