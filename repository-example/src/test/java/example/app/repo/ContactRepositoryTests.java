@@ -33,15 +33,15 @@ import example.app.model.State;
  *
  * @author John Blum
  * @see org.junit.Test
- * @see ContactRepository
+ * @see example.app.repo.ContactRepository
  * @since 1.0.0
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = ApplicationConfiguration.class)
 @SuppressWarnings("unused")
-public class ContactsRepositoryTests {
+public class ContactRepositoryTests {
 
-	protected static final AtomicLong ID_GENERATOR = new AtomicLong(0l);
+	protected static final AtomicLong ID_GENERATOR = new AtomicLong(0L);
 
 	@Autowired
 	private ContactRepository contactRepository;

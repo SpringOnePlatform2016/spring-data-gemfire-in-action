@@ -10,7 +10,7 @@ import org.springframework.util.Assert;
 import org.springframework.util.ObjectUtils;
 
 /**
- * The Person class is an abstract data type modeling a person.
+ * The Person class is an abstract data type (ADT) modeling a person.
  *
  * @author John Blum
  * @see java.io.Serializable
@@ -127,18 +127,21 @@ public class Person implements Serializable {
 		return (date != null ? date.format(DateTimeFormatter.ofPattern("yyyy-MM-dd")) : null);
 	}
 
-	public Person as(Gender gender) {
+	@SuppressWarnings("unchecked")
+	public <T extends Person> T as(Gender gender) {
 		setGender(gender);
-		return this;
+		return (T) this;
 	}
 
-	public Person born(LocalDate birthDate) {
+	@SuppressWarnings("unchecked")
+	public <T extends Person> T born(LocalDate birthDate) {
 		setBirthDate(birthDate);
-		return this;
+		return (T) this;
 	}
 
-	public Person with(Long id) {
+	@SuppressWarnings("unchecked")
+	public <T extends Person> T with(Long id) {
 		setId(id);
-		return this;
+		return (T) this;
 	}
 }

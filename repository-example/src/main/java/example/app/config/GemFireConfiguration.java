@@ -3,19 +3,23 @@ package example.app.config;
 import java.util.Properties;
 
 import com.gemstone.gemfire.cache.GemFireCache;
+import com.gemstone.gemfire.cache.PartitionAttributes;
 import com.gemstone.gemfire.cache.RegionAttributes;
 
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.DependsOn;
 import org.springframework.data.gemfire.CacheFactoryBean;
 import org.springframework.data.gemfire.IndexFactoryBean;
 import org.springframework.data.gemfire.IndexType;
+import org.springframework.data.gemfire.PartitionAttributesFactoryBean;
 import org.springframework.data.gemfire.PartitionedRegionFactoryBean;
 import org.springframework.data.gemfire.RegionAttributesFactoryBean;
 
 import example.app.RepositoryExampleApplication;
 import example.app.model.Contact;
+import example.app.model.Customer;
 
 /**
  * Spring @{@link Configuration} class used to configure and bootstrap Apache Geode as an embedded cache
@@ -38,7 +42,6 @@ public class GemFireConfiguration {
 		return System.getProperty("gemfire.log-level", DEFAULT_GEMFIRE_LOG_LEVEL);
 	}
 
-	@Bean
 	public Properties gemfireProperties() {
 		Properties gemfireProperties = new Properties();
 
@@ -61,7 +64,7 @@ public class GemFireConfiguration {
 
 	@Bean(name = "Contacts")
 	public PartitionedRegionFactoryBean<Long, Contact> contactsRegion(GemFireCache gemfireCache,
-			RegionAttributes<Long, Contact> contactsRegionAttributes) {
+			@Qualifier("contactsRegionAttributes") RegionAttributes<Long, Contact> contactsRegionAttributes) {
 
 		PartitionedRegionFactoryBean<Long, Contact> contactsRegion = new PartitionedRegionFactoryBean<>();
 
@@ -75,13 +78,63 @@ public class GemFireConfiguration {
 
 	@Bean
 	@SuppressWarnings("unchecked")
-	public RegionAttributesFactoryBean contactsRegionAttributes() {
+	public RegionAttributesFactoryBean contactsRegionAttributes(
+			@Qualifier("contactsRegionPartitionAttributes") PartitionAttributes contactsRegionPartitionAttributes) {
+
 		RegionAttributesFactoryBean contactsRegionAttributes = new RegionAttributesFactoryBean();
 
 		contactsRegionAttributes.setKeyConstraint(Long.class);
 		contactsRegionAttributes.setValueConstraint(Contact.class);
+		contactsRegionAttributes.setPartitionAttributes(contactsRegionPartitionAttributes);
 
 		return contactsRegionAttributes;
+	}
+
+	@Bean
+	public PartitionAttributesFactoryBean contactsRegionPartitionAttributes() {
+		PartitionAttributesFactoryBean contactsRegionPartitionAttributes = new PartitionAttributesFactoryBean();
+
+		contactsRegionPartitionAttributes.setColocatedWith("/Customers");
+		contactsRegionPartitionAttributes.setRedundantCopies(1);
+
+		return contactsRegionPartitionAttributes;
+	}
+
+	@Bean(name = "Customers")
+	public PartitionedRegionFactoryBean<Long, Customer> customersRegion(GemFireCache gemfireCache,
+			@Qualifier("customersRegionAttributes") RegionAttributes<Long, Customer> customersRegionAttributes) {
+
+		PartitionedRegionFactoryBean<Long, Customer> customersRegion = new PartitionedRegionFactoryBean<>();
+
+		customersRegion.setAttributes(customersRegionAttributes);
+		customersRegion.setCache(gemfireCache);
+		customersRegion.setClose(false);
+		customersRegion.setPersistent(false);
+
+		return customersRegion;
+	}
+
+	@Bean
+	@SuppressWarnings("unchecked")
+	public RegionAttributesFactoryBean customersRegionAttributes(
+			PartitionAttributes<Long, Customer> customersRegionPartitionAttributes) {
+
+		RegionAttributesFactoryBean customersRegionAttributes = new RegionAttributesFactoryBean();
+
+		customersRegionAttributes.setKeyConstraint(Long.class);
+		customersRegionAttributes.setValueConstraint(Customer.class);
+		customersRegionAttributes.setPartitionAttributes(customersRegionPartitionAttributes);
+
+		return customersRegionAttributes;
+	}
+
+	@Bean
+	public PartitionAttributesFactoryBean customersRegionPartitionAttributes() {
+		PartitionAttributesFactoryBean customersRegionPartitionAttributes = new PartitionAttributesFactoryBean();
+
+		customersRegionPartitionAttributes.setRedundantCopies(1);
+
+		return customersRegionPartitionAttributes;
 	}
 
 	@Bean

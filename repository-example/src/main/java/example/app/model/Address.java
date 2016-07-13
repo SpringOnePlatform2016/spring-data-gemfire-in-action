@@ -7,7 +7,7 @@ import org.springframework.util.Assert;
 import org.springframework.util.ObjectUtils;
 
 /**
- * The Address class is an abstract data type that models a US address location.
+ * The Address class is an abstract data type (ADT) that models a US address location.
  *
  * @author John Blum
  * @see java.io.Serializable

@@ -7,7 +7,7 @@ import org.springframework.util.ObjectUtils;
 import org.springframework.util.StringUtils;
 
 /**
- * The PhoneNumber class is an abstract data type modeling a US phone number.
+ * The PhoneNumber class is an abstract data type (ADT) modeling a US phone number.
  *
  * @author John Blum
  * @see java.io.Serializable
