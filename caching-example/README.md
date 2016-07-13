@@ -18,7 +18,9 @@ Use this approach when:
 
 ## Prerequisites
 
-[Setting Up Gemfire PCF Tile](https://github.com/jxblum/actionable-spring-gemfire/tree/master/cluster-create-example)
+1. [Setting Up Gemfire PCF Tile](https://github.com/jxblum/actionable-spring-gemfire/tree/master/cluster-create-example)
+
+2. [Configure Gemfire in PCF](https://github.com/jxblum/actionable-spring-gemfire/tree/master/cluster-config-example)
 
 ## Deployment
 

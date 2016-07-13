@@ -2,6 +2,10 @@
 
 This outlines how to configure a Gemfire cluster running in PCF.
 
+## Prerequisites
+
+[Setting Up Gemfire PCF Tile](https://github.com/jxblum/actionable-spring-gemfire/tree/master/cluster-create-example)
+
 ## Starting a GemFire Cluster on PCF
 
 After installing the tile, Gemfire clusters can be created and configured
