@@ -12,7 +12,7 @@ The following will get log files from each of the members in the cluster. This w
 
 ```shell
 
-cf export-gemfire customer-cache -l ./logs/logs.zip
+cf export-gemfire customer-cache -l logs.zip
 
 ```
 
@@ -22,6 +22,6 @@ If this commands is ran the cluster will be restored to its initial state. This 
 
 ```shell
 
-cf restart-gemfire customer-cluster --reset-defaults
+cf restart-gemfire customer-cache --reset-defaults
 
 ```

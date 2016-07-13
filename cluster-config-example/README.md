@@ -86,14 +86,27 @@ The following command will deploy the configuration.
 
 ```shell
 
-cf restart-gemfire customer-cache --cluster-config ./cluster.zip --spring-xml /cache-config.xml
+cf restart-gemfire customer-cache --cluster-config ./cluster.zip --spring-xml /cache.xml
 
 ```
 
 #### gfsh Configuration
 
+After opening up gfsh and then connecting to the PCF Gemfire Cache, commands can be ran to manage/create/tune the running cluster. 
 
+```shell
 
+gfsh>connect --use-http --url=http://gf-plan-1-dashboard-ca9cbf62-4407-4e63-5754-ed545ddbea0a.system.diamond.pcf-gemfire.com/gemfire/v1
+Successfully connected to: GemFire Manager HTTP service @ http://gf-plan-1-dashboard-ca9cbf62-4407-4e63-5754-ed545ddbea0a.system.diamond.pcf-gemfire.com/gemfire/v1
+
+gfsh>create region --name=/customer --type=REPLICATE
+   Member    | Status
+------------ | --------------------------------------------
+cacheserver0 | Region "/customer" created on "cacheserver0"
+cacheserver2 | Region "/customer" created on "cacheserver2"
+cacheserver1 | Region "/customer" created on "cacheserver1"
+
+```
 
 
 
