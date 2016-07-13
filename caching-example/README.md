@@ -26,12 +26,13 @@ This is done in coordination with:
 
 http://cloud.spring.io/spring-cloud-connectors/spring-cloud-cloud-foundry-connector.html
 
-## Setting Up A Gemfire Cluster on PCF
 
-```shell
+## References
 
-cf create-service p-gemfire GemFireServicePlan1 customer-cache
+https://docs.cloudfoundry.org/buildpacks/java/spring-service-bindings.html#cloud-profiles-java
 
-```
+http://cloud.spring.io/spring-cloud-connectors/spring-cloud-connectors.html
+
+http://docs.pivotal.io/gemfire-cf/gfe-cli.html#install
 
 
