@@ -121,6 +121,15 @@ public class Contact implements Serializable {
 		return id;
 	}
 
+	protected final void setPerson(Person person) {
+		Assert.notNull(person, "Person cannot be null");
+		this.person = person;
+	}
+
+	public Person getPerson() {
+		return person;
+	}
+
 	public void setAddress(Address address) {
 		this.address = address;
 	}
@@ -135,14 +144,6 @@ public class Contact implements Serializable {
 
 	public String getEmail() {
 		return email;
-	}
-
-	public void setPerson(Person person) {
-		this.person = person;
-	}
-
-	public Person getPerson() {
-		return person;
 	}
 
 	public void setPhoneNumber(PhoneNumber phoneNumber) {
