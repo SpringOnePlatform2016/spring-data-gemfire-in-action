@@ -69,16 +69,46 @@ public class Contact implements Serializable {
 		return contact;
 	}
 
-	public static Contact newContact(Person person, PhoneNumber phoneNumber, String email) {
+	public static Contact newContact(Person person, Address address, PhoneNumber phoneNumber) {
 		Assert.notNull(person, "Person is required");
+		Assert.notNull(address, "Address is required");
 		Assert.notNull(phoneNumber, "PhoneNumber is required");
-		Assert.hasText(email, "Email is required");
 
 		Contact contact = new Contact();
 
 		contact.setPerson(person);
+		contact.setAddress(address);
 		contact.setPhoneNumber(phoneNumber);
+
+		return contact;
+	}
+
+	public static Contact newContact(Person person, String email, PhoneNumber phoneNumber) {
+		Assert.notNull(person, "Person is required");
+		Assert.hasText(email, "Email is required");
+		Assert.notNull(phoneNumber, "PhoneNumber is required");
+
+		Contact contact = new Contact();
+
+		contact.setPerson(person);
 		contact.setEmail(email);
+		contact.setPhoneNumber(phoneNumber);
+
+		return contact;
+	}
+
+	public static Contact newContact(Person person, Address address, String email, PhoneNumber phoneNumber) {
+		Assert.notNull(person, "Person is required");
+		Assert.notNull(address, "Address is required");
+		Assert.hasText(email, "Email is required");
+		Assert.notNull(phoneNumber, "PhoneNumber is required");
+
+		Contact contact = new Contact();
+
+		contact.setPerson(person);
+		contact.setAddress(address);
+		contact.setEmail(email);
+		contact.setPhoneNumber(phoneNumber);
 
 		return contact;
 	}
