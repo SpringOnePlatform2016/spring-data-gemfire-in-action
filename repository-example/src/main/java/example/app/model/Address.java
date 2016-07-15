@@ -104,7 +104,8 @@ public class Address implements Serializable {
 
 		Address that = (Address) obj;
 
-		return ObjectUtils.nullSafeEquals(this.getStreet(), that.getStreet())
+		return ObjectUtils.nullSafeEquals(this.getLocation(), that.getLocation())
+			&& ObjectUtils.nullSafeEquals(this.getStreet(), that.getStreet())
 			&& ObjectUtils.nullSafeEquals(this.getCity(), that.getCity())
 			&& ObjectUtils.nullSafeEquals(this.getState(), that.getState())
 			&& ObjectUtils.nullSafeEquals(this.getZipCode(), that.getZipCode());
@@ -113,6 +114,7 @@ public class Address implements Serializable {
 	@Override
 	public int hashCode() {
 		int hashValue = 17;
+		hashValue = 37 * hashValue + ObjectUtils.nullSafeHashCode(this.getLocation());
 		hashValue = 37 * hashValue + ObjectUtils.nullSafeHashCode(this.getStreet());
 		hashValue = 37 * hashValue + ObjectUtils.nullSafeHashCode(this.getCity());
 		hashValue = 37 * hashValue + ObjectUtils.nullSafeHashCode(this.getState());
@@ -122,6 +124,7 @@ public class Address implements Serializable {
 
 	@Override
 	public String toString() {
-		return String.format("%1$s %2$s, %3$s %4$s", getStreet(), getCity(), getState(), getZipCode());
+		return String.format("%1$s %2$s, %3$s %4$s [Location = %5$s]", getStreet(), getCity(), getState(), getZipCode(),
+			getLocation());
 	}
 }

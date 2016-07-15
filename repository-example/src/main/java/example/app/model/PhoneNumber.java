@@ -11,6 +11,7 @@ import org.springframework.util.StringUtils;
  *
  * @author John Blum
  * @see java.io.Serializable
+ * @see <a href="https://en.wikipedia.org/wiki/Telephone_numbering_plan">Telephone Numbering Plan</a>
  * @since 1.0.0
  */
 @SuppressWarnings("unused")
@@ -45,20 +46,20 @@ public class PhoneNumber implements Serializable {
 		return areaCode;
 	}
 
-	public String getPrefix() {
-		return prefix;
-	}
-
 	public void setPrefix(String prefix) {
 		this.prefix = prefix;
 	}
 
-	public String getSuffix() {
-		return suffix;
+	public String getPrefix() {
+		return prefix;
 	}
 
 	public void setSuffix(String suffix) {
 		this.suffix = suffix;
+	}
+
+	public String getSuffix() {
+		return suffix;
 	}
 
 	public void setExtension(String extension) {

@@ -45,18 +45,6 @@ public class Contact implements Serializable {
 		return contact;
 	}
 
-	public static Contact newContact(Person person, PhoneNumber phoneNumber) {
-		Assert.notNull(person, "Person is required");
-		Assert.notNull(phoneNumber, "PhoneNumber is required");
-
-		Contact contact = new Contact();
-
-		contact.setPerson(person);
-		contact.setPhoneNumber(phoneNumber);
-
-		return contact;
-	}
-
 	public static Contact newContact(Person person, String email) {
 		Assert.notNull(person, "Person is required");
 		Assert.hasText(email, "Email is required");
@@ -69,15 +57,27 @@ public class Contact implements Serializable {
 		return contact;
 	}
 
-	public static Contact newContact(Person person, PhoneNumber phoneNUmber, String email) {
+	public static Contact newContact(Person person, PhoneNumber phoneNumber) {
 		Assert.notNull(person, "Person is required");
-		Assert.notNull(phoneNUmber, "PhoneNumber is required");
+		Assert.notNull(phoneNumber, "PhoneNumber is required");
+
+		Contact contact = new Contact();
+
+		contact.setPerson(person);
+		contact.setPhoneNumber(phoneNumber);
+
+		return contact;
+	}
+
+	public static Contact newContact(Person person, PhoneNumber phoneNumber, String email) {
+		Assert.notNull(person, "Person is required");
+		Assert.notNull(phoneNumber, "PhoneNumber is required");
 		Assert.hasText(email, "Email is required");
 
 		Contact contact = new Contact();
 
 		contact.setPerson(person);
-		contact.setPhoneNumber(phoneNUmber);
+		contact.setPhoneNumber(phoneNumber);
 		contact.setEmail(email);
 
 		return contact;
@@ -91,36 +91,36 @@ public class Contact implements Serializable {
 		return id;
 	}
 
-	public Address getAddress() {
-		return address;
-	}
-
 	public void setAddress(Address address) {
 		this.address = address;
 	}
 
-	public Person getPerson() {
-		return person;
+	public Address getAddress() {
+		return address;
 	}
 
-	public void setPerson(Person person) {
-		this.person = person;
-	}
-
-	public PhoneNumber getPhoneNumber() {
-		return phoneNumber;
-	}
-
-	public void setPhoneNumber(PhoneNumber phoneNumber) {
-		this.phoneNumber = phoneNumber;
+	public void setEmail(String email) {
+		this.email = email;
 	}
 
 	public String getEmail() {
 		return email;
 	}
 
-	public void setEmail(String email) {
-		this.email = email;
+	public void setPerson(Person person) {
+		this.person = person;
+	}
+
+	public Person getPerson() {
+		return person;
+	}
+
+	public void setPhoneNumber(PhoneNumber phoneNumber) {
+		this.phoneNumber = phoneNumber;
+	}
+
+	public PhoneNumber getPhoneNumber() {
+		return phoneNumber;
 	}
 
 	@Override
@@ -137,8 +137,8 @@ public class Contact implements Serializable {
 
 		return ObjectUtils.nullSafeEquals(this.getPerson(), that.getPerson())
 			&& ObjectUtils.nullSafeEquals(this.getAddress(), that.getAddress())
-			&& ObjectUtils.nullSafeEquals(this.getPhoneNumber(), that.getPhoneNumber())
-			&& ObjectUtils.nullSafeEquals(this.getEmail(), that.getEmail());
+			&& ObjectUtils.nullSafeEquals(this.getEmail(), that.getEmail())
+			&& ObjectUtils.nullSafeEquals(this.getPhoneNumber(), that.getPhoneNumber());
 	}
 
 	@Override
@@ -146,8 +146,8 @@ public class Contact implements Serializable {
 		int hashValue = 17;
 		hashValue = 37 * hashValue + ObjectUtils.nullSafeHashCode(this.getPerson());
 		hashValue = 37 * hashValue + ObjectUtils.nullSafeHashCode(this.getAddress());
-		hashValue = 37 * hashValue + ObjectUtils.nullSafeHashCode(this.getPhoneNumber());
 		hashValue = 37 * hashValue + ObjectUtils.nullSafeHashCode(this.getEmail());
+		hashValue = 37 * hashValue + ObjectUtils.nullSafeHashCode(this.getPhoneNumber());
 		return hashValue;
 	}
 
@@ -157,23 +157,23 @@ public class Contact implements Serializable {
 			getClass().getName(), getPerson(), getAddress(), getPhoneNumber(), getEmail());
 	}
 
-	public Contact with(Address address) {
-		setAddress(address);
-		return this;
-	}
-
 	public Contact with(Long id) {
 		setId(id);
 		return this;
 	}
 
-	public Contact with(PhoneNumber phoneNumber) {
-		setPhoneNumber(phoneNumber);
+	public Contact with(Address address) {
+		setAddress(address);
 		return this;
 	}
 
 	public Contact with(String email) {
 		setEmail(email);
+		return this;
+	}
+
+	public Contact with(PhoneNumber phoneNumber) {
+		setPhoneNumber(phoneNumber);
 		return this;
 	}
 }
