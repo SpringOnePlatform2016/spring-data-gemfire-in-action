@@ -184,8 +184,8 @@ public class Contact implements Serializable {
 
 	@Override
 	public String toString() {
-		return String.format("{ @type = %1$s, person = %2$s, address = %3$s, phoneNumber = %4$s, email = %5$s }",
-			getClass().getName(), getPerson(), getAddress(), getPhoneNumber(), getEmail());
+		return String.format("{ @type = %1$s, id = %2$d, person = %3$s, address = %4$s, phoneNumber = %5$s, email = %6$s }",
+			getClass().getName(), getId(), getPerson(), getAddress(), getPhoneNumber(), getEmail());
 	}
 
 	public Contact with(Long id) {
