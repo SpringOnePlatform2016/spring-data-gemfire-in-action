@@ -50,7 +50,8 @@ public class Customer extends Person {
 
 		Customer that = (Customer) obj;
 
-		return ObjectUtils.nullSafeEquals(this.getAccountNumber(), that.getAccountNumber());
+		return super.equals(obj)
+			&& ObjectUtils.nullSafeEquals(this.getAccountNumber(), that.getAccountNumber());
 	}
 
 	@Override
