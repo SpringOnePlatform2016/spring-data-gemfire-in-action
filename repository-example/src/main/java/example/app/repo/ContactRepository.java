@@ -35,7 +35,18 @@ public interface ContactRepository extends GemfireRepository<Contact, Long> {
 	List<Contact> findByEmailLike(String emailWildcard);
 
 	@Trace
+	List<Contact> findByPersonAgeGreaterThanEqualOrderByPersonLastNameAscPersonAgeDesc(int age);
+
+	@Trace
 	List<Contact> findByPersonGender(Gender gender);
+
+	@Trace
+	//@Query("SELECT * FROM /Contacts c WHERE c.person.firstName.equalsIgnoreCase($1) AND c.person.lastName.equalsIgnoreCase($2)")
+	//@Query("SELECT * FROM /Contacts c WHERE c.person.firstName.toLowerCase LIKE $1 AND c.person.lastName.toLowerCase LIKE $2")
+	List<Contact> findByPersonFirstNameIgnoreCaseAndPersonLastNameIgnoreCase(String firstName, String lastName);
+
+	@Trace
+	Contact findByPersonId(Long id);
 
 	@Trace
 	@Hint("PersonLastNameIdx")
