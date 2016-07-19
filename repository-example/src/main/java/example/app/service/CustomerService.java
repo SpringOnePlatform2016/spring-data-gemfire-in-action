@@ -119,7 +119,9 @@ public class CustomerService {
 	}
 
 	protected PhoneNumber validatePhoneNumber(PhoneNumber phoneNumber) {
-		Assert.isTrue(!"555".equals(phoneNumber.getPrefix()), "'555' is not a valid phone number exchange");
+		Assert.isTrue(!"555".equals(phoneNumber.getPrefix()), String.format(
+			"'555' is not a valid phone number [%s] exchange", phoneNumber));
+
 		return phoneNumber;
 	}
 }
