@@ -54,7 +54,7 @@ public class ContactRepositoryTests {
 		return LocalDate.now().minusYears(age);
 	}
 
-	protected Long generateId() {
+	protected Long newId() {
 		return ID_GENERATOR.incrementAndGet();
 	}
 
@@ -64,7 +64,7 @@ public class ContactRepositoryTests {
 
 	protected Contact save(Contact contact) {
 		if (contact.getId() == null) {
-			contact.setId(generateId());
+			contact.setId(newId());
 		}
 
 		return contactRepository.save(contact);
@@ -72,7 +72,7 @@ public class ContactRepositoryTests {
 
 	@After
 	public void tearDown() {
-		contacts.removeAll(contacts.keySet());
+		contactRepository.deleteAll();
 	}
 
 	@Test
@@ -80,7 +80,7 @@ public class ContactRepositoryTests {
 		Contact savedJonDoe = newContact(newPerson("Jon", "Doe"), "jonDoe@home.com")
 			.with(newAddress("100 Main St.", "Portland", State.OREGON, "12345"))
 			.with(newPhoneNumber("503", "555", "1234"))
-			.with(generateId());
+			.with(newId());
 
 		contactRepository.save(savedJonDoe);
 
@@ -255,8 +255,8 @@ public class ContactRepositoryTests {
 
 	@Test
 	public void findById() {
-		Contact jonDoe = save(newContact(newPerson("Jon", "Doe").with(generateId()), "jonDoe@home.com"));
-		Contact janeDoe = save(newContact(newPerson("Jane", "Doe").with(generateId()), "janeDoe@home.com"));
+		Contact jonDoe = save(newContact(newPerson("Jon", "Doe").with(newId()), "jonDoe@home.com"));
+		Contact janeDoe = save(newContact(newPerson("Jane", "Doe").with(newId()), "janeDoe@home.com"));
 
 		Contact contact = contactRepository.findByPersonId(jonDoe.getPerson().getId());
 
