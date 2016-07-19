@@ -15,7 +15,7 @@ import javax.annotation.Resource;
 
 import com.gemstone.gemfire.cache.Region;
 
-import org.junit.Ignore;
+import org.junit.After;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -55,18 +55,24 @@ public class CustomerRepositoryTests {
 	@Resource(name = "Customers")
 	private Region<Long, Customer> customers;
 
-	protected String generateAccountNumber() {
+	protected String newAccountNumber() {
 		return UUID.randomUUID().toString();
 	}
 
-	protected long generateId() {
+	protected long newId() {
 		return ID_GENERATOR.incrementAndGet();
+	}
+
+	@After
+	public void tearDown() {
+		contactRepository.deleteAll();
+		customerRepository.deleteAll();
 	}
 
 	@Test
 	public void findCustomerForAccountIsSuccessful() {
-		Customer jonDoe = newCustomer("Jon", "Doe").with(generateAccountNumber()).with(generateId());
-		Customer janeDoe = newCustomer("Jane", "Doe").with(generateAccountNumber()).with(generateId());
+		Customer jonDoe = newCustomer("Jon", "Doe").with(newAccountNumber()).with(newId());
+		Customer janeDoe = newCustomer("Jane", "Doe").with(newAccountNumber()).with(newId());
 
 		customerRepository.save(jonDoe);
 		customerRepository.save(janeDoe);
@@ -77,23 +83,21 @@ public class CustomerRepositoryTests {
 	}
 
 	/**
-	 * FAIL!!!
 	 * @see <a href="http://gemfire.docs.pivotal.io/docs-gemfire/latest/developing/query_additional/partitioned_region_query_restrictions.html#concept_5353476380D44CC1A7F586E5AE1CE7E8">Partition Region Query Restrictions</a>
 	 */
 	@Test
-	@Ignore
 	public void findAllCustomersWithContactsIsSuccessful() {
-		Customer jonDoe = newCustomer("Jon","Doe").with(generateAccountNumber()).with(generateId());
-		Customer janeDoe = newCustomer("Jane", "Doe").with(generateAccountNumber()).with(generateId());
-		Customer jackHandy = newCustomer("Jack", "Handy").with(generateAccountNumber()).with(generateId());
+		Customer jonDoe = newCustomer("Jon","Doe").with(newAccountNumber()).with(newId());
+		Customer janeDoe = newCustomer("Jane", "Doe").with(newAccountNumber()).with(newId());
+		Customer jackHandy = newCustomer("Jack", "Handy").with(newAccountNumber()).with(newId());
 
 		contactRepository.save(newContact(customerRepository.save(jonDoe), "jonDoe@home.com")
-			.with(newPhoneNumber("503", "555", "1234")).with(generateId()));
+			.with(newPhoneNumber("503", "555", "1234")).with(newId()));
 
 		customerRepository.save(janeDoe);
 
 		contactRepository.save(newContact(customerRepository.save(jackHandy), "jackHandy@office.com")
-			.with(newAddress("100 Main St.", "Portland", State.OREGON, "97205")).with(generateId()));
+			.with(newAddress("100 Main St.", "Portland", State.OREGON, "97205")).with(newId()));
 
 		List<Customer> customers = customerRepository.findAllCustomersWithContactInformation();
 
@@ -104,17 +108,17 @@ public class CustomerRepositoryTests {
 
 	@Test
 	public void findAllCustomersWithContactsUsingFunctionIsSuccessful() {
-		Customer jonDoe = newCustomer("Jon","Doe").with(generateAccountNumber()).with(generateId());
-		Customer janeDoe = newCustomer("Jane", "Doe").with(generateAccountNumber()).with(generateId());
-		Customer jackHandy = newCustomer("Jack", "Handy").with(generateAccountNumber()).with(generateId());
+		Customer jonDoe = newCustomer("Jon","Doe").with(newAccountNumber()).with(newId());
+		Customer janeDoe = newCustomer("Jane", "Doe").with(newAccountNumber()).with(newId());
+		Customer jackHandy = newCustomer("Jack", "Handy").with(newAccountNumber()).with(newId());
 
 		contactRepository.save(newContact(customerRepository.save(jonDoe), "jonDoe@home.com")
-			.with(newPhoneNumber("503", "555", "1234")).with(generateId()));
+			.with(newPhoneNumber("503", "555", "1234")).with(newId()));
 
 		customerRepository.save(janeDoe);
 
 		contactRepository.save(newContact(customerRepository.save(jackHandy), "jackHandy@office.com")
-			.with(newAddress("100 Main St.", "Portland", State.OREGON, "97205")).with(generateId()));
+			.with(newAddress("100 Main St.", "Portland", State.OREGON, "97205")).with(newId()));
 
 		List<?> results = customerFunctionExecutions.findAllCustomersWithContactInformation();
 
