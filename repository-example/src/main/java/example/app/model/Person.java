@@ -2,6 +2,7 @@ package example.app.model;
 
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.time.Period;
 import java.time.format.DateTimeFormatter;
 
 import org.springframework.data.annotation.Id;
@@ -54,7 +55,20 @@ public class Person implements Serializable {
 		return id;
 	}
 
+	@SuppressWarnings("all")
+	public int getAge() {
+		LocalDate birthDate = getBirthDate();
+		Assert.state(birthDate != null, String.format("the birth date of person [%s] is unknown", getName()));
+		Period period = Period.between(birthDate, LocalDate.now());
+		return period.getYears();
+	}
+
 	public void setBirthDate(LocalDate birthDate) {
+		if (birthDate != null && birthDate.isAfter(LocalDate.now())) {
+			throw new IllegalArgumentException(String.format("[%s] cannot be born after today [%s]",
+				getName(), toString(LocalDate.now())));
+		}
+
 		this.birthDate = birthDate;
 	}
 
