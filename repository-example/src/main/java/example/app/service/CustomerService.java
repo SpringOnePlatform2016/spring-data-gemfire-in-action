@@ -15,8 +15,8 @@ import example.app.model.Address;
 import example.app.model.Contact;
 import example.app.model.Customer;
 import example.app.model.PhoneNumber;
-import example.app.repo.ContactRepository;
-import example.app.repo.CustomerRepository;
+import example.app.repo.gemfire.ContactRepository;
+import example.app.repo.gemfire.CustomerRepository;
 
 /**
  * The CustomerService class...

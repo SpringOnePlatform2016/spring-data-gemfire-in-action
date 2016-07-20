@@ -1,4 +1,4 @@
-package example.app.repo;
+package example.app.repo.gemfire;
 
 import static example.app.model.Address.newAddress;
 import static example.app.model.Contact.newContact;
@@ -34,7 +34,7 @@ import example.app.model.State;
  *
  * @author John Blum
  * @see org.junit.Test
- * @see example.app.repo.ContactRepository
+ * @see ContactRepository
  * @since 1.0.0
  */
 @RunWith(SpringJUnit4ClassRunner.class)

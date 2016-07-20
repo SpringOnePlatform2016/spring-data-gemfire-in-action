@@ -1,4 +1,4 @@
-package example.app.repo;
+package example.app.repo.gemfire;
 
 import org.springframework.data.gemfire.repository.GemfireRepository;
 import org.springframework.data.gemfire.repository.query.annotation.Trace;

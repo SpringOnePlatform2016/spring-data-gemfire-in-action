@@ -1,4 +1,4 @@
-package example.app.repo;
+package example.app.repo.gemfire;
 
 import java.util.List;
 

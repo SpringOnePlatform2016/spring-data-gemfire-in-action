@@ -18,8 +18,8 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import example.app.config.LocalTransactionApplicationConfiguration;
 import example.app.model.Contact;
 import example.app.model.Customer;
-import example.app.repo.ContactRepository;
-import example.app.repo.CustomerRepository;
+import example.app.repo.gemfire.ContactRepository;
+import example.app.repo.gemfire.CustomerRepository;
 
 /**
  * Test suite of test cases testing the contract and transactional functionality of the {@link CustomerService} class

@@ -1,4 +1,4 @@
-package example.app.repo.support;
+package example.app.repo.gemfire.support;
 
 import java.util.List;
 
@@ -9,14 +9,15 @@ import org.springframework.util.Assert;
 
 import example.app.function.executions.CustomerFunctionExecutions;
 import example.app.model.Customer;
-import example.app.repo.CustomerRepositoryExtension;
+import example.app.repo.gemfire.CustomerRepository;
+import example.app.repo.gemfire.CustomerRepositoryExtension;
 
 /**
- * The CustomerRepositoryImpl class is a {@link example.app.repo.CustomerRepository} extension implementation
+ * The CustomerRepositoryImpl class is a {@link CustomerRepository} extension implementation
  * to support GemFire OQL JOINS on 2 or more collocated PARTITION Regions.
  *
  * @author John Blum
- * @see example.app.repo.CustomerRepositoryExtension
+ * @see CustomerRepositoryExtension
  * @since 1.0.0
  */
 @Component

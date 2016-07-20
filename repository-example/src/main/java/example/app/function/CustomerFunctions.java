@@ -11,6 +11,8 @@ import com.gemstone.gemfire.cache.query.Query;
 import com.gemstone.gemfire.cache.query.QueryService;
 import com.gemstone.gemfire.cache.query.SelectResults;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataRetrievalFailureException;
 import org.springframework.data.gemfire.function.annotation.GemfireFunction;
 import org.springframework.data.gemfire.mapping.GemfireMappingContext;
 import org.springframework.data.gemfire.repository.support.GemfireRepositoryFactory;
@@ -18,7 +20,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;
 
 import example.app.model.Customer;
-import example.app.repo.CustomerRepository;
+import example.app.repo.gemfire.CustomerRepository;
 
 /**
  * The CustomerFunctions class is a POJO containing various methods defining GemFire Functions
@@ -28,7 +30,7 @@ import example.app.repo.CustomerRepository;
  * @see org.springframework.data.gemfire.function.annotation.GemfireFunction
  * @see com.gemstone.gemfire.cache.execute.RegionFunctionContext
  * @see com.gemstone.gemfire.cache.query.QueryService
- * @see example.app.repo.CustomerRepository
+ * @see CustomerRepository
  * @see <a href="http://gemfire.docs.pivotal.io/docs-gemfire/latest/developing/partitioned_regions/join_query_partitioned_regions.html">Equi-Join Query on collocated PRs</a>
  * @see <a href="http://geode.docs.pivotal.io/docs/developing/partitioned_regions/join_query_partitioned_regions.html">Equi-Join Query on collocated PRs</a>
  * @see <a href="http://gemfire.docs.pivotal.io/docs-gemfire/latest/developing/querying_basics/restrictions_and_unsupported_features.html">Query Language Restrictions and Unsupported Features</a>
@@ -39,59 +41,58 @@ import example.app.repo.CustomerRepository;
 @SuppressWarnings("unused")
 public class CustomerFunctions {
 
-	protected static final String CUSTOMERS_WITH_CONTACTS_QUERY =
-		"SELECT DISTINCT customer FROM /Customers customer, /Contacts contact"
-			+ " WHERE customer.firstName = contact.person.firstName AND customer.lastName = contact.person.lastName";
+	protected static final String CUSTOMERS_WITH_CONTACTS_QUERY = ""
+		+ "SELECT DISTINCT customer FROM /Customers customer, /Contacts contact "
+		+ "WHERE customer.firstName = contact.person.firstName "
+		+ "AND customer.lastName = contact.person.lastName";
+
+	@Autowired
+	private GemfireMappingContext mappingContext;
 
 	@GemfireFunction
 	public List<Customer> findAllCustomersWithContactInformation(FunctionContext functionContext) {
 		return executeQueryInFunctionContext(toRegionFunctionContext(functionContext));
-		//return executeQueryOnRegion(toRegionFunctionContext(functionContext));
 		//return executeQueryWithRepository(toRegionFunctionContext(functionContext));
+	}
+
+	protected List<Customer> executeQueryInFunctionContext(FunctionContext functionContext) {
+		return executeQueryInFunctionContext(toRegionFunctionContext(functionContext));
 	}
 
 	@SuppressWarnings("unchecked")
 	protected List<Customer> executeQueryInFunctionContext(RegionFunctionContext functionContext) {
 		try {
-			QueryService queryService = functionContext.getDataSet().getRegionService().getQueryService();
+			QueryService queryService = getQueryService(functionContext);
 			Query query = queryService.newQuery(CUSTOMERS_WITH_CONTACTS_QUERY);
 			Object results = query.execute(functionContext);
+
 			Assert.isInstanceOf(SelectResults.class, results);
+
 			return ((SelectResults<Customer>) results).asList();
 		}
 		catch (Exception e) {
-			throw new RuntimeException("?", e);
+			throw new DataRetrievalFailureException("Failed to find Customers with Contact information", e);
 		}
 	}
 
-	protected List<Customer> executeQueryOnRegion(RegionFunctionContext regionFunctionContext) {
-		return executeQueryOnRegion(PartitionRegionHelper.getLocalDataForContext(regionFunctionContext));
-	}
-
-	@SuppressWarnings("unchecked")
-	protected List<Customer> executeQueryOnRegion(Region<Long, Customer> customers) {
-		try {
-			QueryService queryService = customers.getRegionService().getQueryService();
-			Query query = queryService.newQuery(CUSTOMERS_WITH_CONTACTS_QUERY);
-			Object results = query.execute();
-			Assert.isInstanceOf(SelectResults.class, results);
-			return ((SelectResults<Customer>) results).asList();
-		}
-		catch (Exception e) {
-			throw new RuntimeException("?", e);
-		}
+	protected List<Customer> executeQueryWithRepository(FunctionContext functionContext) {
+		return executeQueryWithRepository(toRegionFunctionContext(functionContext));
 	}
 
 	protected List<Customer> executeQueryWithRepository(RegionFunctionContext functionContext) {
-		return executeQueryWithRepository(PartitionRegionHelper.getLocalDataForContext(functionContext));
+		return newCustomerRepository(getRegion(functionContext)).findAllCustomersWithContactInformation();
 	}
 
-	protected List<Customer> executeQueryWithRepository(Region<Long, Customer> customers) {
-		return newCustomerRepository(customers).findAllCustomersWithContactInformation();
+	protected QueryService getQueryService(RegionFunctionContext functionContext) {
+		return getRegion(functionContext).getRegionService().getQueryService();
+	}
+
+	protected <K, V> Region<K, V> getRegion(RegionFunctionContext functionContext) {
+		return PartitionRegionHelper.getLocalDataForContext(functionContext);
 	}
 
 	protected CustomerRepository newCustomerRepository(Region<Long, Customer> customers) {
-		return new GemfireRepositoryFactory(Collections.singleton(customers), new GemfireMappingContext())
+		return new GemfireRepositoryFactory(Collections.singleton(customers), mappingContext)
 			.getRepository(CustomerRepository.class, null);
 	}
 
