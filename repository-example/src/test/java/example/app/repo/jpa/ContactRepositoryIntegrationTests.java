@@ -1,0 +1,74 @@
+package example.app.repo.jpa;
+
+import static example.app.model.Address.newAddress;
+import static example.app.model.Contact.newContact;
+import static example.app.model.Customer.newCustomer;
+import static example.app.model.PhoneNumber.newPhoneNumber;
+import static org.assertj.core.api.Assertions.assertThat;
+
+import java.time.LocalDate;
+import java.util.UUID;
+
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.context.junit4.SpringRunner;
+
+import example.app.config.JpaConfiguration;
+import example.app.model.Contact;
+import example.app.model.Customer;
+import example.app.model.Gender;
+import example.app.model.State;
+
+/**
+ * Test suite of test case testing the contract and functionality of the {@link ContactRepository}
+ * data access object (DAO).
+ *
+ * @author John Blum
+ * @see org.junit.Test
+ * @see org.springframework.boot.test.context.SpringBootTest
+ * @see example.app.repo.jpa.ContactRepository
+ * @since 1.0.0
+ */
+@RunWith(SpringRunner.class)
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.NONE, classes = JpaConfiguration.class)
+@ActiveProfiles("test")
+@SuppressWarnings("all")
+public class ContactRepositoryIntegrationTests {
+
+	@Autowired
+	private ContactRepository contactRepository;
+
+	protected LocalDate birthDateFor(int age) {
+		return LocalDate.now().minusYears(age);
+	}
+
+	protected String newAccountNumber() {
+		return UUID.randomUUID().toString();
+	}
+
+	@Test
+	public void saveFindAndDeleteIsSuccessful() {
+		assertThat(contactRepository.count()).isEqualTo(0);
+
+		Customer jonDoe = newCustomer("Jon", "Doe").with(newAccountNumber())
+			.as(Gender.MALE).born(birthDateFor(42));
+
+		Contact expectedContact = newContact(jonDoe, "jonDoe@work.com")
+			.with(newAddress("100 Main St.", "Portland", State.OREGON, "97205"))
+			.with(newPhoneNumber("503", "541", "1234"));
+
+		expectedContact = contactRepository.save(expectedContact);
+
+		assertThat(contactRepository.count()).isEqualTo(1);
+		assertThat(expectedContact.getId()).isNotNull();
+
+		Contact actualContact = contactRepository.findOne(expectedContact.getId());
+
+		assertThat(actualContact).isNotNull();
+		assertThat(actualContact).isNotSameAs(expectedContact);
+		assertThat(actualContact).isEqualTo(expectedContact);
+	}
+}
