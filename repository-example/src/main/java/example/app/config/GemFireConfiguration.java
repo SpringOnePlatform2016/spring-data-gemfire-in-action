@@ -22,10 +22,14 @@ import example.app.model.Contact;
 import example.app.model.Customer;
 
 /**
- * Spring @{@link Configuration} class used to configure and bootstrap Apache Geode as an embedded cache
- * used as the application's system of record (SOR).
+ * Spring @{@link Configuration} class used to configure and bootstrap Apache Geode (or Pivotal GemFire)
+ * as an embedded cache used as the application's system of record (SOR).
  *
  * @author John Blum
+ * @see org.springframework.context.annotation.Bean
+ * @see org.springframework.context.annotation.Configuration
+ * @see com.gemstone.gemfire.cache.GemFireCache
+ * @see example.app.config.ApplicationConfiguration
  * @since 1.0.0
  */
 @Configuration
