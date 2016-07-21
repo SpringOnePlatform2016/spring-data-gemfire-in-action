@@ -10,7 +10,7 @@
 		<artifactId>spring-boot-starter-parent</artifactId>
 		<version>1.4.0.RC1</version>
 	</parent>
-	<groupId>org.springoneplatform.2016</groupId>
+	<groupId>io.springoneplatform.2016</groupId>
 	<artifactId>actionable-spring-gemfire-applications</artifactId>
 	<version>1.0.0.RELEASE</version>
 	<packaging>pom</packaging>
@@ -92,8 +92,6 @@
 		<maven-surefire-plugin.version>2.19.1</maven-surefire-plugin.version>
 		<multithreadedtc.version>1.01</multithreadedtc.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<spring.version>4.2.7.RELEASE</spring.version>
-		<spring-boot.version>1.4.0.RC1</spring-boot.version>
 		<spring-data-geode.version>1.0.0.APACHE-GEODE-INCUBATING-M2</spring-data-geode.version>
 <!--
 		<spring-data-geode.version>1.0.0.APACHE-GEODE-INCUBATING-SNAPSHOT</spring-data-geode.version>
@@ -143,6 +141,16 @@
 				<groupId>org.springframework.data</groupId>
 				<artifactId>spring-data-geode</artifactId>
 				<version>${spring-data-geode.version}</version>
+				<exclusions>
+					<exclusion>
+						<groupId>org.springframework</groupId>
+						<artifactId>spring-context-support</artifactId>
+					</exclusion>
+					<exclusion>
+						<groupId>org.springframework</groupId>
+						<artifactId>spring-tx</artifactId>
+					</exclusion>
+				</exclusions>
 			</dependency>
 			<dependency>
 				<groupId>org.springframework.shell</groupId>
