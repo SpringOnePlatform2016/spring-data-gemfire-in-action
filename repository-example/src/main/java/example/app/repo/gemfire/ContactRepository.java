@@ -14,7 +14,8 @@ import example.app.model.PhoneNumber;
 import example.app.model.State;
 
 /**
- * ContactRepository is a data access object for performing CRUD and querying operations on {@link Contact}s.
+ * Spring Data {@link GemfireRepository} for performing basic data access, CRUD and querying operations on
+ * {@link Contact} objects stored and managed in Apache Geode (or Pivotal GemFire).
  *
  * @author John Blum
  * @see example.app.model.Contact
