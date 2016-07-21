@@ -5,6 +5,17 @@ import java.time.LocalDate;
 import java.time.Period;
 import java.time.format.DateTimeFormatter;
 
+import javax.persistence.Column;
+import javax.persistence.DiscriminatorColumn;
+import javax.persistence.DiscriminatorValue;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
+import javax.persistence.Table;
+
 import org.springframework.data.annotation.Id;
 import org.springframework.data.gemfire.mapping.Region;
 import org.springframework.util.Assert;
@@ -15,10 +26,16 @@ import org.springframework.util.ObjectUtils;
  *
  * @author John Blum
  * @see java.io.Serializable
- * @see org.springframework.data.annotation.Id
+ * @see javax.persistence.Entity
+ * @see javax.persistence.Table
  * @see org.springframework.data.gemfire.mapping.Region
  * @since 1.0.0
  */
+@Entity
+@DiscriminatorColumn(name = "person_type")
+@DiscriminatorValue("person")
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+@Table(name = "People")
 @Region("People")
 @SuppressWarnings("unused")
 public class Person implements Serializable {
@@ -26,13 +43,20 @@ public class Person implements Serializable {
 	private static final long serialVersionUID = -7204456214709927355L;
 
 	@Id
+	@javax.persistence.Id
+	@GeneratedValue
 	private Long id;
 
+	@Column(name = "birth_date")
 	private LocalDate birthDate;
 
+	@Enumerated(EnumType.ORDINAL)
 	private Gender gender;
 
+	@Column(name = "first_name")
 	private String firstName;
+
+	@Column(name = "last_name")
 	private String lastName;
 
 	public static Person newPerson(String firstName, String lastName) {

@@ -2,6 +2,13 @@ package example.app.model;
 
 import java.io.Serializable;
 
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
+import javax.persistence.Table;
+
 import org.springframework.data.annotation.Id;
 import org.springframework.data.gemfire.mapping.Region;
 import org.springframework.util.Assert;
@@ -12,10 +19,13 @@ import org.springframework.util.ObjectUtils;
  *
  * @author John Blum
  * @see java.io.Serializable
- * @see org.springframework.data.annotation.Id
+ * @see javax.persistence.Entity
+ * @see javax.persistence.Table
  * @see org.springframework.data.gemfire.mapping.Region
  * @since 1.0.0
  */
+@Entity
+@Table(name = "Contacts")
 @Region("Contacts")
 @SuppressWarnings("unused")
 public class Contact implements Serializable {
@@ -23,12 +33,20 @@ public class Contact implements Serializable {
 	private static final long serialVersionUID = 6434575088917742861L;
 
 	@Id
+	@javax.persistence.Id
+	@GeneratedValue
 	private Long id;
 
+	@JoinColumn(name = "address_id")
+	@OneToOne(fetch = FetchType.EAGER)
 	private Address address;
 
+	@JoinColumn(name = "person_id", nullable = false)
+	@OneToOne(fetch = FetchType.EAGER)
 	private Person person;
 
+	@JoinColumn(name = "phone_number_id")
+	@OneToOne(fetch = FetchType.EAGER)
 	private PhoneNumber phoneNumber;
 
 	private String email;

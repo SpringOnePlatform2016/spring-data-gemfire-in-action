@@ -1,5 +1,9 @@
 package example.app.model;
 
+import javax.persistence.Column;
+import javax.persistence.DiscriminatorValue;
+import javax.persistence.MappedSuperclass;
+
 import org.springframework.data.gemfire.mapping.Region;
 import org.springframework.util.Assert;
 import org.springframework.util.ObjectUtils;
@@ -12,10 +16,13 @@ import org.springframework.util.ObjectUtils;
  * @see org.springframework.data.gemfire.mapping.Region
  * @since 1.0.0
  */
+@MappedSuperclass
+@DiscriminatorValue("customer")
 @Region("Customers")
 @SuppressWarnings("unused")
 public class Customer extends Person {
 
+	@Column(name = "account_number", nullable = false, unique = true)
 	private String accountNumber;
 
 	public static Customer newCustomer(String firstName, String lastName) {

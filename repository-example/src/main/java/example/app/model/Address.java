@@ -2,6 +2,13 @@ package example.app.model;
 
 import java.io.Serializable;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.GeneratedValue;
+
+import org.springframework.data.annotation.Id;
 import org.springframework.data.geo.Point;
 import org.springframework.util.Assert;
 import org.springframework.util.ObjectUtils;
@@ -11,19 +18,38 @@ import org.springframework.util.ObjectUtils;
  *
  * @author John Blum
  * @see java.io.Serializable
+ * @see javax.persistence.Entity
+ * @see org.springframework.data.geo.Point
+ * @see example.app.model.AddressType
  * @since 1.0.0
  */
+@Entity
 @SuppressWarnings("unused")
 public class Address implements Serializable {
 
 	private static final long serialVersionUID = -1775411208922748140L;
 
+	@Enumerated(EnumType.ORDINAL)
+	private AddressType type;
+
+	@Id
+	@javax.persistence.Id
+	@GeneratedValue
+	private Long id;
+
 	private Point location;
 
+	@Column(nullable = false)
+	@Enumerated(EnumType.ORDINAL)
 	private State state;
 
+	@Column(nullable = false)
 	private String city;
+
+	@Column(nullable = false)
 	private String street;
+
+	@Column(nullable = false)
 	private String zipCode;
 
 	public static Address newAddress(Point location) {
@@ -50,6 +76,14 @@ public class Address implements Serializable {
 		address.setZipCode(zipCode);
 
 		return address;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	public Long getId() {
+		return id;
 	}
 
 	public void setLocation(Point location) {
@@ -92,6 +126,14 @@ public class Address implements Serializable {
 		return zipCode;
 	}
 
+	public void setType(AddressType type) {
+		this.type = type;
+	}
+
+	public AddressType getType() {
+		return (type != null ? type : AddressType.HOME);
+	}
+
 	@Override
 	public boolean equals(Object obj) {
 		if (obj == this) {
@@ -124,7 +166,12 @@ public class Address implements Serializable {
 
 	@Override
 	public String toString() {
-		return String.format("%1$s %2$s, %3$s %4$s [Location = %5$s]", getStreet(), getCity(), getState(), getZipCode(),
-			getLocation());
+		return String.format("%1$s %2$s, %3$s %4$s [Location = %5$s, Type = %6$s]",
+			getStreet(), getCity(), getState(), getZipCode(), getLocation(), getType());
+	}
+
+	public Address with(Long id) {
+		setId(id);
+		return this;
 	}
 }
