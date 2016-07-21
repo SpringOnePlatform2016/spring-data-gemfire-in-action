@@ -19,11 +19,10 @@ import org.junit.After;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.junit4.SpringRunner;
 
 import example.app.config.ApplicationConfiguration;
-import example.app.function.CustomerFunctions;
 import example.app.function.executions.CustomerFunctionExecutions;
 import example.app.model.Customer;
 import example.app.model.State;
@@ -33,13 +32,14 @@ import example.app.model.State;
  *
  * @author John Blum
  * @see org.junit.Test
- * @see CustomerRepository
+ * @see org.springframework.boot.test.context.SpringBootTest
+ * @see example.app.repo.gemfire.CustomerRepository
  * @since 1.0.0
  */
-@RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes = { ApplicationConfiguration.class, CustomerFunctions.class })
+@RunWith(SpringRunner.class)
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.NONE, classes = ApplicationConfiguration.class)
 @SuppressWarnings("unused")
-public class CustomerRepositoryTests {
+public class CustomerRepositoryIntegrationTests {
 
 	protected static final AtomicLong ID_GENERATOR = new AtomicLong(0L);
 

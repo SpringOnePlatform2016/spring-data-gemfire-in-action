@@ -54,7 +54,7 @@ public class CustomerServiceTests {
 	public void invalidPhoneNumberThrowsIllegalArgumentException() {
 		exception.expect(IllegalArgumentException.class);
 		exception.expectCause(is(nullValue(Throwable.class)));
-		exception.expectMessage("'555' is not a valid phone number [(503) 555-1234] exchange");
+		exception.expectMessage("'555' is not a valid phone number [(503) 555-1234 [Type = HOME]] exchange");
 
 		customerService.validatePhoneNumber(newPhoneNumber("503", "555", "1234"));
 	}

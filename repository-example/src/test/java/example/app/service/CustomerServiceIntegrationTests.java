@@ -12,8 +12,8 @@ import org.junit.Test;
 import org.junit.rules.ExpectedException;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.junit4.SpringRunner;
 
 import example.app.config.LocalTransactionApplicationConfiguration;
 import example.app.model.Contact;
@@ -30,10 +30,11 @@ import example.app.repo.gemfire.CustomerRepository;
  * @see example.app.service.CustomerService
  * @since 1.0.0
  */
-@RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes = LocalTransactionApplicationConfiguration.class)
+@RunWith(SpringRunner.class)
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.NONE,
+	classes = LocalTransactionApplicationConfiguration.class)
 @SuppressWarnings("unused")
-public class CustomerServiceTransactionalTests {
+public class CustomerServiceIntegrationTests {
 
 	@Rule
 	public ExpectedException exception = ExpectedException.none();
