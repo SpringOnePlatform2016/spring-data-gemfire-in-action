@@ -32,7 +32,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import example.app.config.JpaConfiguration;
+import example.app.config.jpa.JpaConfiguration;
 import example.app.model.Contact;
 import example.app.model.Customer;
 import example.app.model.Gender;
@@ -46,7 +46,7 @@ import example.app.model.State;
  * @see org.junit.Test
  * @see org.springframework.boot.test.context.SpringBootTest
  * @see org.springframework.test.context.junit4.SpringRunner
- * @see example.app.config.JpaConfiguration
+ * @see example.app.config.jpa.JpaConfiguration
  * @see example.app.repo.jpa.ContactRepository
  * @since 1.0.0
  */

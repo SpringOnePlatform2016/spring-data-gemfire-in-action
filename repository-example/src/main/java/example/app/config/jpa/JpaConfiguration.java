@@ -14,7 +14,7 @@
  * permissions and limitations under the License.
  */
 
-package example.app.config;
+package example.app.config.jpa;
 
 import javax.persistence.EntityManagerFactory;
 import javax.sql.DataSource;
@@ -50,6 +50,8 @@ import example.app.model.Contact;
  * @see org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean
  * @see org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter
  * @see org.springframework.transaction.PlatformTransactionManager
+ * @see org.springframework.transaction.annotation.EnableTransactionManagement
+ * @see example.app.config.ApplicationConfiguration
  * @since 1.0.0
  */
 @Configuration

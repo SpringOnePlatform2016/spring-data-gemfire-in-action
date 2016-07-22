@@ -23,6 +23,8 @@ import org.springframework.data.gemfire.function.config.EnableGemfireFunctionExe
 import org.springframework.data.gemfire.function.config.EnableGemfireFunctions;
 import org.springframework.data.gemfire.repository.config.EnableGemfireRepositories;
 
+import example.app.config.gemfire.GemFireConfiguration;
+import example.app.config.jpa.JpaConfiguration;
 import example.app.function.CustomerFunctions;
 import example.app.service.CustomerService;
 
@@ -36,8 +38,8 @@ import example.app.service.CustomerService;
  * @see org.springframework.data.gemfire.function.config.EnableGemfireFunctions
  * @see org.springframework.data.gemfire.function.config.EnableGemfireFunctionExecutions
  * @see org.springframework.data.gemfire.repository.config.EnableGemfireRepositories
- * @see example.app.config.GemFireConfiguration
- * @see example.app.config.JpaConfiguration
+ * @see example.app.config.gemfire.GemFireConfiguration
+ * @see example.app.config.jpa.JpaConfiguration
  * @since 1.0.0
  */
 @Configuration

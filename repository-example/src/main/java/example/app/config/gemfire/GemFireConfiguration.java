@@ -14,7 +14,7 @@
  * permissions and limitations under the License.
  */
 
-package example.app.config;
+package example.app.config.gemfire;
 
 import java.util.Properties;
 
