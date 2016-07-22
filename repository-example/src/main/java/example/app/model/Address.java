@@ -20,7 +20,6 @@ import org.springframework.util.ObjectUtils;
  * @see java.io.Serializable
  * @see javax.persistence.Entity
  * @see org.springframework.data.geo.Point
- * @see example.app.model.AddressType
  * @since 1.0.0
  */
 @Entity
@@ -28,8 +27,6 @@ import org.springframework.util.ObjectUtils;
 public class Address implements Serializable {
 
 	private static final long serialVersionUID = -1775411208922748140L;
-
-	private AddressType type;
 
 	private Long id;
 
@@ -39,6 +36,8 @@ public class Address implements Serializable {
 	private String city;
 	private String street;
 	private String zipCode;
+
+	private Type type = Type.DEFAULT;
 
 	public static Address newAddress(Point location) {
 		Assert.notNull(location, "location is required");
@@ -122,13 +121,13 @@ public class Address implements Serializable {
 		return zipCode;
 	}
 
-	public void setType(AddressType type) {
+	public void setType(Type type) {
 		this.type = type;
 	}
 
 	@Enumerated(EnumType.STRING)
-	public AddressType getType() {
-		return (type != null ? type : AddressType.HOME);
+	public Type getType() {
+		return (type != null ? type : Type.DEFAULT);
 	}
 
 	@Override
@@ -170,5 +169,20 @@ public class Address implements Serializable {
 	public Address with(Long id) {
 		setId(id);
 		return this;
+	}
+
+	/**
+	 * The Type enum is an enumeration of different {@link Address} types.
+	 */
+	public enum Type {
+		BUSINESS,
+		HOME,
+		OFFICE,
+		PO_BOX,
+		RESIDENTIAL,
+		WORK;
+
+		public static final Type DEFAULT = Type.HOME;
+
 	}
 }

@@ -19,7 +19,6 @@ import org.springframework.util.StringUtils;
  * @author John Blum
  * @see java.io.Serializable
  * @see javax.persistence.Entity
- * @see example.app.model.PhoneNumberType
  * @see <a href="https://en.wikipedia.org/wiki/Telephone_numbering_plan">Telephone Numbering Plan</a>
  * @since 1.0.0
  */
@@ -29,16 +28,14 @@ public class PhoneNumber implements Serializable {
 
 	private static final long serialVersionUID = -7966052569771224197L;
 
-	protected static final PhoneNumberType DEFAULT_PHONE_NUMBER_TYPE = PhoneNumberType.HOME;
-
 	private Long id;
-
-	private PhoneNumberType type;
 
 	private String areaCode;
 	private String extension;
 	private String prefix;
 	private String suffix;
+
+	private Type type;
 
 	public static PhoneNumber newPhoneNumber(String areaCode, String prefix, String suffix) {
 		Assert.hasText(areaCode, "areaCode is required");
@@ -100,13 +97,13 @@ public class PhoneNumber implements Serializable {
 		return extension;
 	}
 
-	public void setType(PhoneNumberType type) {
+	public void setType(Type type) {
 		this.type = type;
 	}
 
 	@Enumerated(EnumType.STRING)
-	public PhoneNumberType getType() {
-		return (type != null ? type : DEFAULT_PHONE_NUMBER_TYPE);
+	public Type getType() {
+		return (type != null ? type : Type.DEFAULT);
 	}
 
 	@Override
@@ -153,5 +150,17 @@ public class PhoneNumber implements Serializable {
 	public PhoneNumber with(String extension) {
 		setExtension(extension);
 		return this;
+	}
+
+	public enum Type {
+		BUSINESS,
+		IP,
+		HOME,
+		MOBILE,
+		OFFICE,
+		WORK;
+
+		public static final Type DEFAULT = Type.HOME;
+
 	}
 }
