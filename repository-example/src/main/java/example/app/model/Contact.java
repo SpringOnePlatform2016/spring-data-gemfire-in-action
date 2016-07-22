@@ -18,10 +18,12 @@ package example.app.model;
 
 import java.io.Serializable;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
@@ -31,8 +33,8 @@ import org.springframework.util.Assert;
 import org.springframework.util.ObjectUtils;
 
 /**
- * The Contact class is an Abstract Data Type (ADT) modeling contact information for a person, such as address,
- * phone number and email address.
+ * The Contact class is an Abstract Data Type (ADT) modeling contact information for an individual person,
+ * such as address, phone number and email address.
  *
  * @author John Blum
  * @see java.io.Serializable
@@ -155,8 +157,7 @@ public class Contact implements Serializable {
 		this.person = person;
 	}
 
-	@JoinColumn(name = "person_id", nullable = false)
-	@OneToOne(fetch = FetchType.EAGER)
+	@OneToOne(fetch = FetchType.EAGER, cascade = { CascadeType.PERSIST, CascadeType.MERGE })
 	public Person getPerson() {
 		return person;
 	}
@@ -165,8 +166,8 @@ public class Contact implements Serializable {
 		this.address = address;
 	}
 
+	@ManyToOne(fetch = FetchType.EAGER, cascade = { CascadeType.PERSIST, CascadeType.MERGE })
 	@JoinColumn(name = "address_id")
-	@OneToOne(fetch = FetchType.EAGER)
 	public Address getAddress() {
 		return address;
 	}
@@ -183,8 +184,8 @@ public class Contact implements Serializable {
 		this.phoneNumber = phoneNumber;
 	}
 
+	@ManyToOne(fetch = FetchType.EAGER, cascade = { CascadeType.PERSIST, CascadeType.MERGE })
 	@JoinColumn(name = "phone_number_id")
-	@OneToOne(fetch = FetchType.EAGER)
 	public PhoneNumber getPhoneNumber() {
 		return phoneNumber;
 	}
@@ -219,8 +220,9 @@ public class Contact implements Serializable {
 
 	@Override
 	public String toString() {
-		return String.format("{ @type = %1$s, id = %2$d, person = %3$s, address = %4$s, phoneNumber = %5$s, email = %6$s }",
-			getClass().getName(), getId(), getPerson(), getAddress(), getPhoneNumber(), getEmail());
+		return String.format(
+			"{ @type = %1$s, id = %2$d, person = %3$s, address = %4$s, phoneNumber = %5$s, email = %6$s }",
+				getClass().getName(), getId(), getPerson(), getAddress(), getPhoneNumber(), getEmail());
 	}
 
 	public Contact with(Long id) {

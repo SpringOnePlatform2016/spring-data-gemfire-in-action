@@ -45,15 +45,17 @@ import example.app.model.Contact;
  * @see org.springframework.context.annotation.Profile
  * @see org.springframework.data.jpa.repository.config.EnableJpaRepositories
  * @see org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseBuilder
- * @see org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean
+ * @see org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType#HSQL
  * @see org.springframework.orm.jpa.JpaTransactionManager
+ * @see org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean
  * @see org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter
+ * @see org.springframework.transaction.PlatformTransactionManager
  * @since 1.0.0
  */
 @Configuration
 @EnableJpaRepositories(basePackages = "example.app.repo.jpa")
 @EnableTransactionManagement
-@Profile({ "embedded", "local", "test" })
+@Profile({ "embedded", "test" })
 @SuppressWarnings("unused")
 public class JpaConfiguration {
 

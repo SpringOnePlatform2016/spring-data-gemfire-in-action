@@ -40,11 +40,13 @@ import example.app.model.State;
 
 /**
  * Test suite of test case testing the contract and functionality of the {@link ContactRepository}
- * data access object (DAO).
+ * data access object (DAO) using JPA.
  *
  * @author John Blum
  * @see org.junit.Test
  * @see org.springframework.boot.test.context.SpringBootTest
+ * @see org.springframework.test.context.junit4.SpringRunner
+ * @see example.app.config.JpaConfiguration
  * @see example.app.repo.jpa.ContactRepository
  * @since 1.0.0
  */
