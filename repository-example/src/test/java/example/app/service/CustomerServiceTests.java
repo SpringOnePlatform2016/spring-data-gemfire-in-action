@@ -44,10 +44,10 @@ public class CustomerServiceTests {
 
 	@Test
 	public void emailValidationIsCorrect() {
-		assertThat(customerService.validateEmail("jonDoe@work.com")).isEqualTo("jonDoe@work.com");
-		assertThat(customerService.validateEmail("janeDoe@home.net")).isEqualTo("janeDoe@home.net");
-		assertThat(customerService.validateEmail("cookieDoe@nonprofit.org")).isEqualTo("cookieDoe@nonprofit.org");
-		assertThat(customerService.validateEmail("pieDoe@school.edu")).isEqualTo("pieDoe@school.edu");
+		assertThat(customerService.validate("jonDoe@work.com")).isEqualTo("jonDoe@work.com");
+		assertThat(customerService.validate("janeDoe@home.net")).isEqualTo("janeDoe@home.net");
+		assertThat(customerService.validate("cookieDoe@nonprofit.org")).isEqualTo("cookieDoe@nonprofit.org");
+		assertThat(customerService.validate("pieDoe@school.edu")).isEqualTo("pieDoe@school.edu");
 	}
 
 	@Test
@@ -56,14 +56,14 @@ public class CustomerServiceTests {
 		exception.expectCause(is(nullValue(Throwable.class)));
 		exception.expectMessage("email [joeDirt@bar.biz] is invalid");
 
-		customerService.validateEmail("joeDirt@bar.biz");
+		customerService.validate("joeDirt@bar.biz");
 	}
 
 	@Test
 	public void phoneNumberValidationIsCorrect() {
 		PhoneNumber phoneNumber = newPhoneNumber("503", "541", "1234");
 
-		assertThat(customerService.validatePhoneNumber(phoneNumber)).isEqualTo(phoneNumber);
+		assertThat(customerService.validate(phoneNumber)).isEqualTo(phoneNumber);
 	}
 
 	@Test
@@ -72,6 +72,6 @@ public class CustomerServiceTests {
 		exception.expectCause(is(nullValue(Throwable.class)));
 		exception.expectMessage("'555' is not a valid phone number [(503) 555-1234 [Type = HOME]] exchange");
 
-		customerService.validatePhoneNumber(newPhoneNumber("503", "555", "1234"));
+		customerService.validate(newPhoneNumber("503", "555", "1234"));
 	}
 }

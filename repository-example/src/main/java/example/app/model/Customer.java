@@ -23,6 +23,7 @@ import javax.persistence.MappedSuperclass;
 import org.springframework.data.gemfire.mapping.Region;
 import org.springframework.util.Assert;
 import org.springframework.util.ObjectUtils;
+import org.springframework.util.StringUtils;
 
 /**
  * The Customer class is an abstract data type (ADT) that models a customer.
@@ -50,6 +51,10 @@ public class Customer extends Person {
 		customer.setLastName(lastName);
 
 		return customer;
+	}
+
+	public boolean hasAccount() {
+		return StringUtils.hasText(getAccountNumber());
 	}
 
 	public void setAccountNumber(String accountNumber) {

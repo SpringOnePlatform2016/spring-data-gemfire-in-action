@@ -72,22 +72,19 @@ public class CustomerService {
 
 	@Transactional
 	public Customer createAccount(Customer customer) {
-		Assert.state(customer.getAccountNumber() == null,
-			String.format("Customer [%s] already has an account", customer));
+		Assert.state(!customer.hasAccount(),  String.format("Customer [%s] already has an account", customer));
 
 		return customerRepository.save(setId(customer.with(newAccountNumber())));
 	}
 
 	@Transactional
 	public Customer createAccountIfNotExists(Customer customer) {
-		Customer existingCustomer = (customer.getAccountNumber() != null
+		Customer existingCustomer = (customer.hasAccount()
 			? customerRepository.findByAccountNumber(customer.getAccountNumber())
-			: (customer.getId() != null ? customerRepository.findOne(customer.getId())
-			: null));
+			: (customer.isNotNew() ? customerRepository.findOne(customer.getId()) : null));
 
-		if (existingCustomer == null) {
-			existingCustomer = customer.with(newAccountNumber()).with(newId());
-			customerRepository.save(existingCustomer);
+		if (existingCustomer == null || !customer.hasAccount()) {
+			existingCustomer = createAccount(customer);
 		}
 
 		return existingCustomer;
@@ -97,7 +94,7 @@ public class CustomerService {
 	public Contact findContactInformation(Customer customer) {
 		Assert.notNull(customer, "Customer cannot be null");
 
-		return (customer.getId() == null ? null : contactRepository.findByPersonId(customer.getId()));
+		return (customer.isNotNew() ? contactRepository.findByPersonId(customer.getId()) : null);
 	}
 
 	protected Contact saveContactInformation(Customer customer, Function<Contact, Contact> customerContactFunction) {
@@ -108,30 +105,34 @@ public class CustomerService {
 	@Transactional
 	public Contact addContactInformation(Customer customer, Address address) {
 		return saveContactInformation(customer, (Contact customerContact) ->
-			customerContact != null ? customerContact.with(address)
-				: newContact(customer, address).with(newId()));
+			customerContact != null ? customerContact.with(validate(address))
+				: newContact(customer, validate(address)).with(newId()));
 	}
 
 	@Transactional
 	public Contact addContactInformation(Customer customer, String email) {
 		return saveContactInformation(customer, (Contact customerContact) ->
-			customerContact != null ? customerContact.with(validateEmail(email))
-				: newContact(customer, validateEmail(email)).with(newId()));
+			customerContact != null ? customerContact.with(validate(email))
+				: newContact(customer, validate(email)).with(newId()));
 	}
 
 	@Transactional
 	public Contact addContactInformation(Customer customer, PhoneNumber phoneNumber) {
 		return saveContactInformation(customer, (Contact customerContact) ->
-			customerContact != null ? customerContact.with(validatePhoneNumber(phoneNumber))
-				: newContact(customer, validatePhoneNumber(phoneNumber)).with(newId()));
+			customerContact != null ? customerContact.with(validate(phoneNumber))
+				: newContact(customer, validate(phoneNumber)).with(newId()));
 	}
 
-	protected String validateEmail(String email) {
+	protected Address validate(Address address) {
+		return address;
+	}
+
+	protected String validate(String email) {
 		Assert.isTrue(EMAIL_PATTERN.matcher(email).find(), String.format("email [%s] is invalid", email));
 		return email;
 	}
 
-	protected PhoneNumber validatePhoneNumber(PhoneNumber phoneNumber) {
+	protected PhoneNumber validate(PhoneNumber phoneNumber) {
 		Assert.isTrue(!"555".equals(phoneNumber.getPrefix()), String.format(
 			"'555' is not a valid phone number [%s] exchange", phoneNumber));
 
