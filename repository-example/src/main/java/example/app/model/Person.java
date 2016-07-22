@@ -15,6 +15,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.gemfire.mapping.Region;
@@ -42,21 +43,14 @@ public class Person implements Serializable {
 
 	private static final long serialVersionUID = -7204456214709927355L;
 
-	@Id
-	@javax.persistence.Id
-	@GeneratedValue
 	private Long id;
 
-	@Column(name = "birth_date")
 	private LocalDate birthDate;
 
-	@Enumerated(EnumType.ORDINAL)
 	private Gender gender;
 
-	@Column(name = "first_name")
 	private String firstName;
 
-	@Column(name = "last_name")
 	private String lastName;
 
 	public static Person newPerson(String firstName, String lastName) {
@@ -75,10 +69,14 @@ public class Person implements Serializable {
 		this.id = id;
 	}
 
+	@Id
+	@javax.persistence.Id
+	@GeneratedValue
 	public Long getId() {
 		return id;
 	}
 
+	@Transient
 	@SuppressWarnings("all")
 	public int getAge() {
 		LocalDate birthDate = getBirthDate();
@@ -96,6 +94,7 @@ public class Person implements Serializable {
 		this.birthDate = birthDate;
 	}
 
+	@Column(name = "birth_date")
 	public LocalDate getBirthDate() {
 		return birthDate;
 	}
@@ -104,6 +103,7 @@ public class Person implements Serializable {
 		this.firstName = firstName;
 	}
 
+	@Column(name = "first_name")
 	public String getFirstName() {
 		return firstName;
 	}
@@ -112,6 +112,7 @@ public class Person implements Serializable {
 		this.gender = gender;
 	}
 
+	@Enumerated(EnumType.STRING)
 	public Gender getGender() {
 		return gender;
 	}
@@ -120,10 +121,12 @@ public class Person implements Serializable {
 		this.lastName = lastName;
 	}
 
+	@Column(name = "last_name")
 	public String getLastName() {
 		return lastName;
 	}
 
+	@Transient
 	public String getName() {
 		return String.format("%1$s %2$s", getFirstName(), getLastName());
 	}

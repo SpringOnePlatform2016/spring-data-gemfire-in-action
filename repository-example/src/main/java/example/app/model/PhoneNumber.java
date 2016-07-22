@@ -29,23 +29,15 @@ public class PhoneNumber implements Serializable {
 
 	private static final long serialVersionUID = -7966052569771224197L;
 
-	@Id
-	@javax.persistence.Id
-	@GeneratedValue
+	protected static final PhoneNumberType DEFAULT_PHONE_NUMBER_TYPE = PhoneNumberType.HOME;
+
 	private Long id;
 
-	@Enumerated(EnumType.ORDINAL)
 	private PhoneNumberType type;
 
-	@Column(name = "area_code", nullable = false)
 	private String areaCode;
-
 	private String extension;
-
-	@Column(nullable = false)
 	private String prefix;
-
-	@Column(nullable = false)
 	private String suffix;
 
 	public static PhoneNumber newPhoneNumber(String areaCode, String prefix, String suffix) {
@@ -66,6 +58,9 @@ public class PhoneNumber implements Serializable {
 		this.id = id;
 	}
 
+	@Id
+	@javax.persistence.Id
+	@GeneratedValue
 	public Long getId() {
 		return id;
 	}
@@ -74,6 +69,7 @@ public class PhoneNumber implements Serializable {
 		this.areaCode = areaCode;
 	}
 
+	@Column(name = "area_code", nullable = false)
 	public String getAreaCode() {
 		return areaCode;
 	}
@@ -82,6 +78,7 @@ public class PhoneNumber implements Serializable {
 		this.prefix = prefix;
 	}
 
+	@Column(nullable = false)
 	public String getPrefix() {
 		return prefix;
 	}
@@ -90,6 +87,7 @@ public class PhoneNumber implements Serializable {
 		this.suffix = suffix;
 	}
 
+	@Column(nullable = false)
 	public String getSuffix() {
 		return suffix;
 	}
@@ -106,8 +104,9 @@ public class PhoneNumber implements Serializable {
 		this.type = type;
 	}
 
+	@Enumerated(EnumType.STRING)
 	public PhoneNumberType getType() {
-		return (type != null ? type : PhoneNumberType.HOME);
+		return (type != null ? type : DEFAULT_PHONE_NUMBER_TYPE);
 	}
 
 	@Override

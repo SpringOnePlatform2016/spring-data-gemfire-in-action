@@ -29,27 +29,15 @@ public class Address implements Serializable {
 
 	private static final long serialVersionUID = -1775411208922748140L;
 
-	@Enumerated(EnumType.ORDINAL)
 	private AddressType type;
 
-	@Id
-	@javax.persistence.Id
-	@GeneratedValue
 	private Long id;
 
 	private Point location;
 
-	@Column(nullable = false)
-	@Enumerated(EnumType.ORDINAL)
 	private State state;
-
-	@Column(nullable = false)
 	private String city;
-
-	@Column(nullable = false)
 	private String street;
-
-	@Column(nullable = false)
 	private String zipCode;
 
 	public static Address newAddress(Point location) {
@@ -82,6 +70,9 @@ public class Address implements Serializable {
 		this.id = id;
 	}
 
+	@Id
+	@javax.persistence.Id
+	@GeneratedValue
 	public Long getId() {
 		return id;
 	}
@@ -98,6 +89,7 @@ public class Address implements Serializable {
 		this.street = street;
 	}
 
+	@Column(nullable = false)
 	public String getStreet() {
 		return street;
 	}
@@ -106,6 +98,7 @@ public class Address implements Serializable {
 		this.city = city;
 	}
 
+	@Column(nullable = false)
 	public String getCity() {
 		return city;
 	}
@@ -114,6 +107,8 @@ public class Address implements Serializable {
 		this.state = state;
 	}
 
+	@Column(nullable = false)
+	@Enumerated(EnumType.STRING)
 	public State getState() {
 		return state;
 	}
@@ -122,6 +117,7 @@ public class Address implements Serializable {
 		this.zipCode = zipCode;
 	}
 
+	@Column(nullable = false)
 	public String getZipCode() {
 		return zipCode;
 	}
@@ -130,6 +126,7 @@ public class Address implements Serializable {
 		this.type = type;
 	}
 
+	@Enumerated(EnumType.STRING)
 	public AddressType getType() {
 		return (type != null ? type : AddressType.HOME);
 	}

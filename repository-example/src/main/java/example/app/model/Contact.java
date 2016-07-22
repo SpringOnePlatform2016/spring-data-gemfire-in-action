@@ -15,7 +15,8 @@ import org.springframework.util.Assert;
 import org.springframework.util.ObjectUtils;
 
 /**
- * The Contact class...
+ * The Contact class is an Abstract Data Type (ADT) modeling contact information for a person, such as address,
+ * phone number and email address.
  *
  * @author John Blum
  * @see java.io.Serializable
@@ -25,28 +26,19 @@ import org.springframework.util.ObjectUtils;
  * @since 1.0.0
  */
 @Entity
-@Table(name = "Contacts")
 @Region("Contacts")
+@Table(name = "Contacts")
 @SuppressWarnings("unused")
 public class Contact implements Serializable {
 
 	private static final long serialVersionUID = 6434575088917742861L;
 
-	@Id
-	@javax.persistence.Id
-	@GeneratedValue
 	private Long id;
 
-	@JoinColumn(name = "address_id")
-	@OneToOne(fetch = FetchType.EAGER)
 	private Address address;
 
-	@JoinColumn(name = "person_id", nullable = false)
-	@OneToOne(fetch = FetchType.EAGER)
 	private Person person;
 
-	@JoinColumn(name = "phone_number_id")
-	@OneToOne(fetch = FetchType.EAGER)
 	private PhoneNumber phoneNumber;
 
 	private String email;
@@ -135,6 +127,9 @@ public class Contact implements Serializable {
 		this.id = id;
 	}
 
+	@Id
+	@javax.persistence.Id
+	@GeneratedValue
 	public Long getId() {
 		return id;
 	}
@@ -144,6 +139,8 @@ public class Contact implements Serializable {
 		this.person = person;
 	}
 
+	@JoinColumn(name = "person_id", nullable = false)
+	@OneToOne(fetch = FetchType.EAGER)
 	public Person getPerson() {
 		return person;
 	}
@@ -152,6 +149,8 @@ public class Contact implements Serializable {
 		this.address = address;
 	}
 
+	@JoinColumn(name = "address_id")
+	@OneToOne(fetch = FetchType.EAGER)
 	public Address getAddress() {
 		return address;
 	}
@@ -168,6 +167,8 @@ public class Contact implements Serializable {
 		this.phoneNumber = phoneNumber;
 	}
 
+	@JoinColumn(name = "phone_number_id")
+	@OneToOne(fetch = FetchType.EAGER)
 	public PhoneNumber getPhoneNumber() {
 		return phoneNumber;
 	}

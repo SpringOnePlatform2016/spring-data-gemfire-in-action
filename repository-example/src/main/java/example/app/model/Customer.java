@@ -22,7 +22,6 @@ import org.springframework.util.ObjectUtils;
 @SuppressWarnings("unused")
 public class Customer extends Person {
 
-	@Column(name = "account_number", nullable = false, unique = true)
 	private String accountNumber;
 
 	public static Customer newCustomer(String firstName, String lastName) {
@@ -41,6 +40,7 @@ public class Customer extends Person {
 		this.accountNumber = accountNumber;
 	}
 
+	@Column(name = "account_number", nullable = false, unique = true)
 	public String getAccountNumber() {
 		return accountNumber;
 	}
