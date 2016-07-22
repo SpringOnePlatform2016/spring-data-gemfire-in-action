@@ -38,6 +38,8 @@ import org.springframework.data.gemfire.mapping.Region;
 import org.springframework.util.Assert;
 import org.springframework.util.ObjectUtils;
 
+import example.app.model.support.Identifiable;
+
 /**
  * The Person class is an abstract data type (ADT) modeling a person.
  *
@@ -46,6 +48,7 @@ import org.springframework.util.ObjectUtils;
  * @see javax.persistence.Entity
  * @see javax.persistence.Table
  * @see org.springframework.data.gemfire.mapping.Region
+ * @see example.app.model.support.Identifiable
  * @since 1.0.0
  */
 @Entity
@@ -55,7 +58,7 @@ import org.springframework.util.ObjectUtils;
 @Table(name = "People")
 @Region("People")
 @SuppressWarnings("unused")
-public class Person implements Serializable {
+public class Person implements Identifiable<Long>, Serializable {
 
 	private static final long serialVersionUID = -7204456214709927355L;
 

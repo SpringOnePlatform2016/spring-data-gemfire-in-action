@@ -29,18 +29,21 @@ import org.springframework.util.Assert;
 import org.springframework.util.ObjectUtils;
 import org.springframework.util.StringUtils;
 
+import example.app.model.support.Identifiable;
+
 /**
  * The PhoneNumber class is an abstract data type (ADT) modeling a US phone number.
  *
  * @author John Blum
  * @see java.io.Serializable
  * @see javax.persistence.Entity
+ * @see example.app.model.support.Identifiable
  * @see <a href="https://en.wikipedia.org/wiki/Telephone_numbering_plan">Telephone Numbering Plan</a>
  * @since 1.0.0
  */
 @Entity
 @SuppressWarnings("unused")
-public class PhoneNumber implements Serializable {
+public class PhoneNumber implements Identifiable<Long>, Serializable {
 
 	private static final long serialVersionUID = -7966052569771224197L;
 

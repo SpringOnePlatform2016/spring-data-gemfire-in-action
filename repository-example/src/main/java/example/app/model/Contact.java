@@ -32,6 +32,8 @@ import org.springframework.data.gemfire.mapping.Region;
 import org.springframework.util.Assert;
 import org.springframework.util.ObjectUtils;
 
+import example.app.model.support.Identifiable;
+
 /**
  * The Contact class is an Abstract Data Type (ADT) modeling contact information for an individual person,
  * such as address, phone number and email address.
@@ -41,13 +43,17 @@ import org.springframework.util.ObjectUtils;
  * @see javax.persistence.Entity
  * @see javax.persistence.Table
  * @see org.springframework.data.gemfire.mapping.Region
+ * @see example.app.model.Address
+ * @see example.app.model.Person
+ * @see example.app.model.PhoneNumber
+ * @see example.app.model.support.Identifiable
  * @since 1.0.0
  */
 @Entity
 @Region("Contacts")
 @Table(name = "Contacts")
 @SuppressWarnings("unused")
-public class Contact implements Serializable {
+public class Contact implements Identifiable<Long>, Serializable {
 
 	private static final long serialVersionUID = 6434575088917742861L;
 

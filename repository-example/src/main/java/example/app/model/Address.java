@@ -29,6 +29,8 @@ import org.springframework.data.geo.Point;
 import org.springframework.util.Assert;
 import org.springframework.util.ObjectUtils;
 
+import example.app.model.support.Identifiable;
+
 /**
  * The Address class is an abstract data type (ADT) that models a US address location.
  *
@@ -36,11 +38,12 @@ import org.springframework.util.ObjectUtils;
  * @see java.io.Serializable
  * @see javax.persistence.Entity
  * @see org.springframework.data.geo.Point
+ * @see example.app.model.support.Identifiable
  * @since 1.0.0
  */
 @Entity
 @SuppressWarnings("unused")
-public class Address implements Serializable {
+public class Address implements Identifiable<Long>, Serializable {
 
 	private static final long serialVersionUID = -1775411208922748140L;
 

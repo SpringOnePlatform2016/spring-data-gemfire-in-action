@@ -31,6 +31,7 @@ import example.app.model.Address;
 import example.app.model.Contact;
 import example.app.model.Customer;
 import example.app.model.PhoneNumber;
+import example.app.model.support.Identifiable;
 import example.app.repo.gemfire.ContactRepository;
 import example.app.repo.gemfire.CustomerRepository;
 
@@ -53,10 +54,6 @@ public class CustomerService {
 	@Autowired
 	private CustomerRepository customerRepository;
 
-	protected boolean isNew(Customer customer) {
-		return (customer.getId() == null);
-	}
-
 	protected String newAccountNumber() {
 		return UUID.randomUUID().toString();
 	}
@@ -65,12 +62,12 @@ public class CustomerService {
 		return System.currentTimeMillis();
 	}
 
-	protected Customer setId(Customer customer) {
-		if (isNew(customer)) {
-			customer.setId(newId());
+	protected <T extends Identifiable<Long>> T setId(T identifiable) {
+		if (identifiable.isNew()) {
+			identifiable.setId(newId());
 		}
 
-		return customer;
+		return identifiable;
 	}
 
 	@Transactional
