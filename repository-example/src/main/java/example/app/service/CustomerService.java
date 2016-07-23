@@ -36,9 +36,15 @@ import example.app.repo.gemfire.ContactRepository;
 import example.app.repo.gemfire.CustomerRepository;
 
 /**
- * The CustomerService class...
+ * The CustomerService class is a Spring {@link Service @Service} class used to manage customer interactions
+ * and relationships.
  *
  * @author John Blum
+ * @see org.springframework.stereotype.Service
+ * @see org.springframework.transaction.annotation.Transactional
+ * @see example.app.model.Customer
+ * @see example.app.repo.gemfire.ContactRepository
+ * @see example.app.repo.gemfire.CustomerRepository
  * @since 1.0.0
  */
 @Service("customerService")
