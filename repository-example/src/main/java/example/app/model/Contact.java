@@ -31,6 +31,7 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.gemfire.mapping.Region;
 import org.springframework.util.Assert;
 import org.springframework.util.ObjectUtils;
+import org.springframework.util.StringUtils;
 
 import example.app.model.support.Identifiable;
 
@@ -178,12 +179,20 @@ public class Contact implements Identifiable<Long>, Serializable {
 		return address;
 	}
 
+	public boolean hasAddress() {
+		return (getAddress() != null);
+	}
+
 	public void setEmail(String email) {
 		this.email = email;
 	}
 
 	public String getEmail() {
 		return email;
+	}
+
+	public boolean hasEmail() {
+		return StringUtils.hasText(getEmail());
 	}
 
 	public void setPhoneNumber(PhoneNumber phoneNumber) {
@@ -194,6 +203,10 @@ public class Contact implements Identifiable<Long>, Serializable {
 	@JoinColumn(name = "phone_number_id")
 	public PhoneNumber getPhoneNumber() {
 		return phoneNumber;
+	}
+
+	public boolean hasPhoneNumber() {
+		return (getPhoneNumber() != null);
 	}
 
 	@Override
