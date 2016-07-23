@@ -71,7 +71,7 @@ public class CustomerServiceIntegrationTests {
 	}
 
 	@Test
-	public void createsValidContactWithCustomerAccountIsSuccessful() {
+	public void transactionWithValidContactAndCustomerAccountCommits() {
 		Customer jonDoe = newCustomer("Jon", "Doe");
 
 		assertThat(jonDoe).isNotNull();
@@ -102,7 +102,7 @@ public class CustomerServiceIntegrationTests {
 	}
 
 	@Test
-	public void createInvalidContactRollsbackTransaction() {
+	public void transactionWithInvalidContactRollsBack() {
 		Customer joeDirt = newCustomer("Joe", "Dirt");
 
 		assertThat(joeDirt).isNotNull();
