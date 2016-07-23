@@ -24,8 +24,10 @@ import org.springframework.data.gemfire.function.config.EnableGemfireFunctions;
 import org.springframework.data.gemfire.repository.config.EnableGemfireRepositories;
 
 import example.app.config.gemfire.GemFireConfiguration;
-import example.app.config.jpa.JpaConfiguration;
 import example.app.function.CustomerFunctions;
+import example.app.function.executions.CustomerFunctionExecutions;
+import example.app.repo.gemfire.ContactRepository;
+import example.app.repo.gemfire.CustomerRepository;
 import example.app.service.CustomerService;
 
 /**
@@ -39,14 +41,13 @@ import example.app.service.CustomerService;
  * @see org.springframework.data.gemfire.function.config.EnableGemfireFunctionExecutions
  * @see org.springframework.data.gemfire.repository.config.EnableGemfireRepositories
  * @see example.app.config.gemfire.GemFireConfiguration
- * @see example.app.config.jpa.JpaConfiguration
  * @since 1.0.0
  */
 @Configuration
 @EnableGemfireFunctions
-@EnableGemfireFunctionExecutions(basePackages = "example.app.function.executions")
-@EnableGemfireRepositories(basePackages = "example.app.repo.gemfire")
-@Import({ GemFireConfiguration.class, JpaConfiguration.class })
+@EnableGemfireFunctionExecutions(basePackageClasses = CustomerFunctionExecutions.class)
+@EnableGemfireRepositories(basePackageClasses = ContactRepository.class)
+@Import(GemFireConfiguration.class)
 @SuppressWarnings("unused")
 public class ApplicationConfiguration {
 
@@ -56,7 +57,7 @@ public class ApplicationConfiguration {
 	}
 
 	@Bean
-	public CustomerService customerService() {
-		return new CustomerService();
+	public CustomerService customerService(ContactRepository contactRepository, CustomerRepository customerRepository) {
+		return new CustomerService(contactRepository, customerRepository);
 	}
 }

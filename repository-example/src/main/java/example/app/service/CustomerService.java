@@ -48,18 +48,32 @@ public class CustomerService {
 	protected static final Pattern EMAIL_PATTERN =
 		Pattern.compile("[a-zA-Z0-9_]+@[a-zA-Z0-9_]+(\\.com|\\.net|\\.org|\\.edu)");
 
-	@Autowired
-	private ContactRepository contactRepository;
+	private final ContactRepository contactRepository;
+
+	private final CustomerRepository customerRepository;
 
 	@Autowired
-	private CustomerRepository customerRepository;
+	public CustomerService(ContactRepository contactRepository, CustomerRepository customerRepository) {
+		this.contactRepository = contactRepository;
+		this.customerRepository = customerRepository;
+	}
+
+	protected ContactRepository getContactRepository() {
+		Assert.state(contactRepository != null, "ContactRepository was not properly initialized");
+		return contactRepository;
+	}
+
+	protected CustomerRepository getCustomerRepository() {
+		Assert.state(customerRepository != null, "CustomerRepository was not properly initialized");
+		return customerRepository;
+	}
 
 	protected String newAccountNumber() {
 		return UUID.randomUUID().toString();
 	}
 
 	protected long newId() {
-		return System.currentTimeMillis();
+		return System.nanoTime();
 	}
 
 	protected <T extends Identifiable<Long>> T setId(T identifiable) {
@@ -74,16 +88,19 @@ public class CustomerService {
 	public Customer createAccount(Customer customer) {
 		Assert.state(!customer.hasAccount(),  String.format("Customer [%s] already has an account", customer));
 
-		return customerRepository.save(setId(customer.with(newAccountNumber())));
+		return getCustomerRepository().save(setId(customer.with(newAccountNumber())));
 	}
 
 	@Transactional
 	public Customer createAccountIfNotExists(Customer customer) {
 		Customer existingCustomer = (customer.hasAccount()
-			? customerRepository.findByAccountNumber(customer.getAccountNumber())
-			: (customer.isNotNew() ? customerRepository.findOne(customer.getId()) : null));
+			? getCustomerRepository().findByAccountNumber(customer.getAccountNumber()) : null);
+
+		existingCustomer = (existingCustomer != null ? existingCustomer
+			: (customer.isNotNew() ? getCustomerRepository().findOne(customer.getId()) : null));
 
 		if (existingCustomer == null || !customer.hasAccount()) {
+			customer.setAccountNumber(null);
 			existingCustomer = createAccount(customer);
 		}
 
@@ -94,11 +111,11 @@ public class CustomerService {
 	public Contact findContactInformation(Customer customer) {
 		Assert.notNull(customer, "Customer cannot be null");
 
-		return (customer.isNotNew() ? contactRepository.findByPersonId(customer.getId()) : null);
+		return (customer.isNotNew() ? getContactRepository().findByPersonId(customer.getId()) : null);
 	}
 
 	protected Contact saveContactInformation(Customer customer, Function<Contact, Contact> customerContactFunction) {
-		return contactRepository.save(customerContactFunction.apply(findContactInformation(
+		return getContactRepository().save(customerContactFunction.apply(findContactInformation(
 			createAccountIfNotExists(customer))));
 	}
 

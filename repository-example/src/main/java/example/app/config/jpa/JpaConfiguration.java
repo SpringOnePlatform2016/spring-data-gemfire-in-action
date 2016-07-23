@@ -21,7 +21,6 @@ import javax.sql.DataSource;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Profile;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseBuilder;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType;
@@ -35,14 +34,13 @@ import example.app.model.Contact;
 
 /**
  * Spring {@link Configuration} class used to configure and bootstrap a {@link DataSource} along with configuring
- * a JPA {@link javax.persistence.EntityManager}
+ * a JPA {@link javax.persistence.EntityManager} to persist entities to a relational data source.
  *
  * @author John Blum
  * @see javax.persistence.EntityManagerFactory
  * @see javax.sql.DataSource
  * @see org.springframework.context.annotation.Bean
  * @see org.springframework.context.annotation.Configuration
- * @see org.springframework.context.annotation.Profile
  * @see org.springframework.data.jpa.repository.config.EnableJpaRepositories
  * @see org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseBuilder
  * @see org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType#HSQL
@@ -51,13 +49,11 @@ import example.app.model.Contact;
  * @see org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter
  * @see org.springframework.transaction.PlatformTransactionManager
  * @see org.springframework.transaction.annotation.EnableTransactionManagement
- * @see example.app.config.ApplicationConfiguration
  * @since 1.0.0
  */
 @Configuration
 @EnableJpaRepositories(basePackages = "example.app.repo.jpa")
 @EnableTransactionManagement
-@Profile({ "embedded", "test" })
 @SuppressWarnings("unused")
 public class JpaConfiguration {
 

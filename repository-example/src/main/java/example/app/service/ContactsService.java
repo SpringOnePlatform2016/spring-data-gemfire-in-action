@@ -44,24 +44,42 @@ public class ContactsService {
 	protected static final Pattern EMAIL_PATTERN =
 		Pattern.compile("[a-zA-Z0-9_]+@[a-zA-Z0-9_]+(\\.com|\\.net|\\.org|\\.edu)");
 
-	@Autowired
-	private example.app.repo.gemfire.ContactRepository gemfireContactRepository;
+	private final example.app.repo.gemfire.ContactRepository gemfireContactRepository;
+
+	private final example.app.repo.jpa.ContactRepository jpaContactRepository;
 
 	@Autowired
-	private example.app.repo.jpa.ContactRepository jpaContactRepository;
+	public ContactsService(example.app.repo.gemfire.ContactRepository gemfireContactRepository,
+			example.app.repo.jpa.ContactRepository jpaContactRepository) {
+
+		this.gemfireContactRepository = gemfireContactRepository;
+		this.jpaContactRepository = jpaContactRepository;
+	}
+
+	protected example.app.repo.gemfire.ContactRepository getGemFireContactRepository() {
+		Assert.state(gemfireContactRepository != null, "GemFire ContactRepository was not properly initialized");
+		return gemfireContactRepository;
+	}
+
+	protected example.app.repo.jpa.ContactRepository getJpaContactRepository() {
+		Assert.state(jpaContactRepository != null, "JPA ContactRepository was not properly initialized");
+		return jpaContactRepository;
+	}
 
 	@Transactional
 	public Contact save(Contact contact) {
 		Assert.notNull(contact, "Contact cannot be null");
 
-		return gemfireContactRepository.save(jpaContactRepository.save(
+		return getGemFireContactRepository().save(getJpaContactRepository().save(
 			validatePhoneNumber(validateEmail(validateAddress(contact)))));
 	}
 
 	@Transactional
 	public void remove(Contact contact) {
-		jpaContactRepository.delete(contact);
-		gemfireContactRepository.delete(contact);
+		Assert.notNull(contact, "Contact cannot be null");
+
+		getJpaContactRepository().delete(contact);
+		getGemFireContactRepository().delete(contact);
 	}
 
 	protected Contact validateAddress(Contact contact) {

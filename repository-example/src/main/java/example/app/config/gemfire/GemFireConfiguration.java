@@ -45,6 +45,7 @@ import example.app.model.Customer;
  * @see org.springframework.context.annotation.Bean
  * @see org.springframework.context.annotation.Configuration
  * @see com.gemstone.gemfire.cache.GemFireCache
+ * @see example.app.RepositoryExampleApplication
  * @see example.app.config.ApplicationConfiguration
  * @since 1.0.0
  */
