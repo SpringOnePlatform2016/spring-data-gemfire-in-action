@@ -104,6 +104,11 @@ public class Person implements Identifiable<Long>, Serializable {
 		return period.getYears();
 	}
 
+	public void setBirthDateFor(int age) {
+		Assert.isTrue(age >= 0, "Age must be greater than equal to 0");
+		setBirthDate(LocalDate.now().minusYears(age));
+	}
+
 	public void setBirthDate(LocalDate birthDate) {
 		if (birthDate != null && birthDate.isAfter(LocalDate.now())) {
 			throw new IllegalArgumentException(String.format("[%s] cannot be born after today [%s]",
@@ -185,6 +190,12 @@ public class Person implements Identifiable<Long>, Serializable {
 
 	protected String toString(LocalDate date) {
 		return (date != null ? date.format(DateTimeFormatter.ofPattern("yyyy-MM-dd")) : null);
+	}
+
+	@SuppressWarnings("unchecked")
+	public <T extends Person> T age(int age) {
+		setBirthDateFor(age);
+		return (T) this;
 	}
 
 	@SuppressWarnings("unchecked")

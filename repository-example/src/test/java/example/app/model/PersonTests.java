@@ -16,6 +16,7 @@
 
 package example.app.model;
 
+import static example.app.model.Person.newPerson;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.nullValue;
@@ -46,7 +47,7 @@ public class PersonTests {
 
 	@Test
 	public void newPersonWithFirstAndLastName() {
-		Person jonDoe = Person.newPerson("Jon", "Doe");
+		Person jonDoe = newPerson("Jon", "Doe");
 
 		assertThat(jonDoe).isNotNull();
 		assertThat(jonDoe.getId()).isNull();
@@ -61,7 +62,7 @@ public class PersonTests {
 	public void newPersonWithNameBirthDateGenderAndId() {
 		LocalDate birthDate = LocalDate.of(1969, Month.APRIL, 1);
 
-		Person janeDoe = Person.newPerson("Jane", "Doe").as(Gender.FEMALE).born(birthDate).with(1L);
+		Person janeDoe = newPerson("Jane", "Doe").as(Gender.FEMALE).born(birthDate).with(1L);
 
 		assertThat(janeDoe).isNotNull();
 		assertThat(janeDoe.getId()).isEqualTo(1L);
@@ -72,7 +73,7 @@ public class PersonTests {
 
 	@Test
 	public void getAge() {
-		Person jonDoe = Person.newPerson("Jon", "Doe").born(getBirthDateFor(21));
+		Person jonDoe = newPerson("Jon", "Doe").born(getBirthDateFor(21));
 
 		assertThat(jonDoe).isNotNull();
 		assertThat(jonDoe.getName()).isEqualTo("Jon Doe");
@@ -82,7 +83,7 @@ public class PersonTests {
 
 	@Test
 	public void getAgeWhenBirthDateIsNullThrowsIllegalStateException() {
-		Person jonDoe = Person.newPerson("Jon", "Doe");
+		Person jonDoe = newPerson("Jon", "Doe");
 
 		assertThat(jonDoe).isNotNull();
 		assertThat(jonDoe.getName()).isEqualTo("Jon Doe");
@@ -96,8 +97,49 @@ public class PersonTests {
 	}
 
 	@Test
+	public void setBirthDateForAgeIsSuccessful() {
+		Person jonDoe = newPerson("Jon", "Doe");
+		int age = 21;
+
+		jonDoe.setBirthDateFor(age);
+
+		LocalDate now = LocalDate.now();
+		LocalDate birthDate = jonDoe.getBirthDate();
+
+		assertThat(birthDate).isNotNull();
+		assertThat(birthDate.getYear()).isEqualTo(now.getYear() - age);
+		assertThat(birthDate.getMonth()).isEqualTo(now.getMonth());
+		assertThat(birthDate.getDayOfMonth()).isEqualTo(now.getDayOfMonth());
+	}
+
+	@Test
+	public void setBirthDateForAgeZeroIsSuccessful() {
+		Person jonDoe = newPerson("Jon", "Doe");
+		int age = 0;
+
+		jonDoe.setBirthDateFor(age);
+
+		LocalDate now = LocalDate.now();
+		LocalDate birthDate = jonDoe.getBirthDate();
+
+		assertThat(birthDate).isNotNull();
+		assertThat(birthDate.getYear()).isEqualTo(now.getYear() - age);
+		assertThat(birthDate.getMonth()).isEqualTo(now.getMonth());
+		assertThat(birthDate.getDayOfMonth()).isEqualTo(now.getDayOfMonth());
+	}
+
+	@Test
+	public void setBirthDateForNegativeAgeThrowsIllegalArgumentException() {
+		exception.expect(IllegalArgumentException.class);
+		exception.expectCause(is(nullValue(Throwable.class)));
+		exception.expectMessage("Age must be greater than equal to 0");
+
+		newPerson("Jon", "Doe").setBirthDateFor(-2);
+	}
+
+	@Test
 	public void setBirthDateToFutureThrowsIllegalArgumentException() {
-		Person jonDoe = Person.newPerson("Jon", "Doe");
+		Person jonDoe = newPerson("Jon", "Doe");
 
 		assertThat(jonDoe).isNotNull();
 		assertThat(jonDoe.getName()).isEqualTo("Jon Doe");
