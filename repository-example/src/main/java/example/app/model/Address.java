@@ -135,7 +135,7 @@ public class Address implements Identifiable<Long>, Serializable {
 		this.zipCode = zipCode;
 	}
 
-	@Column(nullable = false)
+	@Column(name = "zip_code", nullable = false)
 	public String getZipCode() {
 		return zipCode;
 	}
