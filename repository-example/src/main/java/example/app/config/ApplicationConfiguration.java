@@ -46,7 +46,7 @@ import example.app.service.CustomerService;
 @Configuration
 @EnableGemfireFunctions
 @EnableGemfireFunctionExecutions(basePackageClasses = CustomerFunctionExecutions.class)
-@EnableGemfireRepositories(basePackageClasses = ContactRepository.class)
+@EnableGemfireRepositories(basePackageClasses = example.app.repo.gemfire.ContactRepository.class)
 @Import(GemFireConfiguration.class)
 @SuppressWarnings("unused")
 public class ApplicationConfiguration {
