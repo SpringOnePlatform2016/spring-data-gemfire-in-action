@@ -84,6 +84,10 @@ public class Address implements Identifiable<Long>, Serializable {
 		return address;
 	}
 
+	public static Point newPoint(double x, double y) {
+		return new Point(x, y);
+	}
+
 	public void setId(Long id) {
 		this.id = id;
 	}
