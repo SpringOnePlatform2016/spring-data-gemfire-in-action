@@ -27,6 +27,7 @@ import example.app.model.Contact;
  *
  * @author John Blum
  * @see org.springframework.data.jpa.repository.JpaRepository
+ * @see org.springframework.stereotype.Repository
  * @see example.app.model.Contact
  * @since 1.0.0
  */
