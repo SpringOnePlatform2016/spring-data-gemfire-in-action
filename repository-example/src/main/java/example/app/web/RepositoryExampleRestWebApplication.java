@@ -66,7 +66,7 @@ public class RepositoryExampleRestWebApplication implements CommandLineRunner {
 		Contact jonDoe = newContact(newPerson("Jon", "Doe").as(Gender.MALE).age(21), "jonDoe@work.com")
 			.with(newAddress("100 Main St.", "Portland", State.OREGON, "97205"))
 			.with(newPhoneNumber("503", "541", "1234"))
-			.with(1L);
+			.identifiedBy(1L);
 
 		contactRepository.save(jonDoe);
 	}

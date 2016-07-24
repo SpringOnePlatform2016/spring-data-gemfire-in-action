@@ -97,7 +97,7 @@ public class ContactRepositoryIntegrationTests {
 		Contact savedJonDoe = newContact(newPerson("Jon", "Doe"), "jonDoe@home.com")
 			.with(newAddress("100 Main St.", "Portland", State.OREGON, "12345"))
 			.with(newPhoneNumber("503", "555", "1234"))
-			.with(newId());
+			.identifiedBy(newId());
 
 		contactRepository.save(savedJonDoe);
 
@@ -272,8 +272,8 @@ public class ContactRepositoryIntegrationTests {
 
 	@Test
 	public void findById() {
-		Contact jonDoe = save(newContact(newPerson("Jon", "Doe").with(newId()), "jonDoe@home.com"));
-		Contact janeDoe = save(newContact(newPerson("Jane", "Doe").with(newId()), "janeDoe@home.com"));
+		Contact jonDoe = save(newContact(newPerson("Jon", "Doe").identifiedBy(newId()), "jonDoe@home.com"));
+		Contact janeDoe = save(newContact(newPerson("Jane", "Doe").identifiedBy(newId()), "janeDoe@home.com"));
 
 		Contact contact = contactRepository.findByPersonId(jonDoe.getPerson().getId());
 

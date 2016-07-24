@@ -161,11 +161,6 @@ public class PhoneNumber implements Identifiable<Long>, Serializable {
 			StringUtils.hasText(extension) ? String.format(" x%s", extension) : "", getType());
 	}
 
-	public PhoneNumber with(Long id) {
-		setId(id);
-		return this;
-	}
-
 	public PhoneNumber with(String extension) {
 		setExtension(extension);
 		return this;

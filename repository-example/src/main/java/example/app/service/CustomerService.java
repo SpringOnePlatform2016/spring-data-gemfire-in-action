@@ -129,21 +129,21 @@ public class CustomerService {
 	public Contact addContactInformation(Customer customer, Address address) {
 		return saveContactInformation(customer, (Contact customerContact) ->
 			customerContact != null ? customerContact.with(validate(address))
-				: newContact(customer, validate(address)).with(newId()));
+				: newContact(customer, validate(address)).identifiedBy(newId()));
 	}
 
 	@Transactional
 	public Contact addContactInformation(Customer customer, String email) {
 		return saveContactInformation(customer, (Contact customerContact) ->
 			customerContact != null ? customerContact.with(validate(email))
-				: newContact(customer, validate(email)).with(newId()));
+				: newContact(customer, validate(email)).identifiedBy(newId()));
 	}
 
 	@Transactional
 	public Contact addContactInformation(Customer customer, PhoneNumber phoneNumber) {
 		return saveContactInformation(customer, (Contact customerContact) ->
 			customerContact != null ? customerContact.with(validate(phoneNumber))
-				: newContact(customer, validate(phoneNumber)).with(newId()));
+				: newContact(customer, validate(phoneNumber)).identifiedBy(newId()));
 	}
 
 	protected Address validate(Address address) {

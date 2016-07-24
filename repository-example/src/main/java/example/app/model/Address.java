@@ -185,8 +185,8 @@ public class Address implements Identifiable<Long>, Serializable {
 			getStreet(), getCity(), getState(), getZipCode(), getLocation(), getType());
 	}
 
-	public Address with(Long id) {
-		setId(id);
+	public Address with(Point location) {
+		setLocation(location);
 		return this;
 	}
 

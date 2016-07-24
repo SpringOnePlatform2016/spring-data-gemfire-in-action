@@ -179,7 +179,7 @@ public class CustomerServiceTests {
 
 	@Test
 	public void createAccountForExistingCustomer() {
-		Customer jonDoe = newCustomer("Jon", "Doe").with("123").with(1L);
+		Customer jonDoe = newCustomer("Jon", "Doe").with("123").identifiedBy(1L);
 
 		try {
 			exception.expect(IllegalStateException.class);
@@ -223,8 +223,8 @@ public class CustomerServiceTests {
 
 	@Test
 	public void createAccountIfNotExistsForExistingCustomerWithAccountNumberAndId() {
-		Customer jonDoe = newCustomer("Jon", "Doe").with("987").with(1L);
-		Customer jonathonDoe = newCustomer("Jonathon", "Doe").with("123").with(1L);
+		Customer jonDoe = newCustomer("Jon", "Doe").with("987").identifiedBy(1L);
+		Customer jonathonDoe = newCustomer("Jonathon", "Doe").with("123").identifiedBy(1L);
 
 		when(mockCustomerRepository.findByAccountNumber(anyString())).thenReturn(null);
 		when(mockCustomerRepository.findOne(eq(1L))).thenReturn(jonathonDoe);
@@ -238,7 +238,7 @@ public class CustomerServiceTests {
 
 	@Test
 	public void createAccountIfNotExistsForNonExistingCustomerWithAccountNumberAndId() {
-		Customer jonDoe = newCustomer("Jon", "Doe").with("123").with(1L);
+		Customer jonDoe = newCustomer("Jon", "Doe").with("123").identifiedBy(1L);
 
 		when(mockCustomerRepository.findByAccountNumber(anyString())).thenReturn(null);
 		when(mockCustomerRepository.findOne(anyLong())).thenReturn(null);
@@ -257,7 +257,7 @@ public class CustomerServiceTests {
 
 	@Test
 	public void createAccountIfNotExistsForNonExistingCustomerWithId() {
-		Customer jonDoe = newCustomer("Jon", "Doe").with(1L);
+		Customer jonDoe = newCustomer("Jon", "Doe").identifiedBy(1L);
 
 		when(mockCustomerRepository.findOne(anyLong())).thenReturn(null);
 		when(mockCustomerRepository.save(eq(jonDoe))).thenReturn(jonDoe);
@@ -292,7 +292,7 @@ public class CustomerServiceTests {
 
 	@Test
 	public void findContactInformationForIdentifiedPersonReturnsPerson() {
-		Customer jonDoe = newCustomer("Jon", "Doe").with(1L);
+		Customer jonDoe = newCustomer("Jon", "Doe").identifiedBy(1L);
 		Contact expectedContact = newContact(jonDoe, "jonDoe@work.com");
 
 		when(mockContactRepository.findByPersonId(eq(1L))).thenReturn(expectedContact);
@@ -304,7 +304,7 @@ public class CustomerServiceTests {
 
 	@Test
 	public void findContactInformationForIdentifiedPersonReturnsNull() {
-		Customer jonDoe = newCustomer("Jon", "Doe").with(1L);
+		Customer jonDoe = newCustomer("Jon", "Doe").identifiedBy(1L);
 
 		when(mockContactRepository.findByPersonId(eq(1L))).thenReturn(null);
 
@@ -338,7 +338,7 @@ public class CustomerServiceTests {
 	@Test
 	@SuppressWarnings("unchecked")
 	public void saveContactInformationCallsContactRepositorySave() {
-		Customer jonDoe = newCustomer("Jon", "Doe").with("123").with(1L);
+		Customer jonDoe = newCustomer("Jon", "Doe").with("123").identifiedBy(1L);
 		Contact jonDoeContact = newContact(jonDoe, "jonDoe@work.com");
 
 		Function<Contact, Contact> mockFunction = mock(Function.class);
@@ -358,7 +358,7 @@ public class CustomerServiceTests {
 
 	@Test
 	public void addAddressToCustomerWithExistingContact() {
-		Customer jonDoe = newCustomer("Jon", "Doe").with("123").with(1L);
+		Customer jonDoe = newCustomer("Jon", "Doe").with("123").identifiedBy(1L);
 		Contact jonDoeContact = newContact(jonDoe, "jonDoe@work.com");
 		Address expectedAddress = newAddress("100 Main St.", "Portland", State.OREGON, "97205");
 
@@ -377,7 +377,7 @@ public class CustomerServiceTests {
 
 	@Test
 	public void addAddressToCustomerCreatesNewContact() {
-		Customer jonDoe = newCustomer("Jon", "Doe").with("123").with(1L);
+		Customer jonDoe = newCustomer("Jon", "Doe").with("123").identifiedBy(1L);
 		Address expectedAddress = newAddress("100 Main St.", "Portland", State.OREGON, "97205");
 
 		when(mockCustomerRepository.findByAccountNumber(eq("123"))).thenReturn(jonDoe);
@@ -401,7 +401,7 @@ public class CustomerServiceTests {
 
 	@Test
 	public void addEmailToCustomerWithExistingContact() {
-		Customer jonDoe = newCustomer("Jon", "Doe").with("123").with(1L);
+		Customer jonDoe = newCustomer("Jon", "Doe").with("123").identifiedBy(1L);
 		Contact jonDoeContact = newContact(jonDoe, newPhoneNumber("503", "541", "1234"));
 
 		when(mockCustomerRepository.findByAccountNumber(eq("123"))).thenReturn(jonDoe);
@@ -419,7 +419,7 @@ public class CustomerServiceTests {
 
 	@Test
 	public void addEmailToCustomerCreatesNewContact() {
-		Customer jonDoe = newCustomer("Jon", "Doe").with("123").with(1L);
+		Customer jonDoe = newCustomer("Jon", "Doe").with("123").identifiedBy(1L);
 
 		when(mockCustomerRepository.findByAccountNumber(eq("123"))).thenReturn(jonDoe);
 		when(mockContactRepository.findByPersonId(anyLong())).thenReturn(null);
@@ -442,7 +442,7 @@ public class CustomerServiceTests {
 
 	@Test
 	public void addPhoneNumberToCustomerWithExistingContact() {
-		Customer jonDoe = newCustomer("Jon", "Doe").with("123").with(1L);
+		Customer jonDoe = newCustomer("Jon", "Doe").with("123").identifiedBy(1L);
 		Contact jonDoeContact = newContact(jonDoe, "jonDoe@work.com");
 		PhoneNumber expectedPhoneNumber = newPhoneNumber("503", "541", "1234");
 
@@ -461,7 +461,7 @@ public class CustomerServiceTests {
 
 	@Test
 	public void addPhoneNumberToCustomerCreatesNewContact() {
-		Customer jonDoe = newCustomer("Jon", "Doe").with("123").with(1L);
+		Customer jonDoe = newCustomer("Jon", "Doe").with("123").identifiedBy(1L);
 		PhoneNumber expectedPhoneNumber = newPhoneNumber("503", "541", "1234");
 
 		when(mockCustomerRepository.findByAccountNumber(eq("123"))).thenReturn(jonDoe);

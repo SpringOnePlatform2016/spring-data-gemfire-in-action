@@ -40,6 +40,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import example.app.config.ApplicationConfiguration;
 import example.app.function.executions.CustomerFunctionExecutions;
+import example.app.model.Contact;
 import example.app.model.Customer;
 import example.app.model.State;
 
@@ -87,8 +88,8 @@ public class CustomerRepositoryIntegrationTests {
 
 	@Test
 	public void findCustomerForAccountIsSuccessful() {
-		Customer jonDoe = newCustomer("Jon", "Doe").with(newAccountNumber()).with(newId());
-		Customer janeDoe = newCustomer("Jane", "Doe").with(newAccountNumber()).with(newId());
+		Customer jonDoe = newCustomer("Jon", "Doe").with(newAccountNumber()).identifiedBy(newId());
+		Customer janeDoe = newCustomer("Jane", "Doe").with(newAccountNumber()).identifiedBy(newId());
 
 		customerRepository.save(jonDoe);
 		customerRepository.save(janeDoe);
@@ -103,17 +104,17 @@ public class CustomerRepositoryIntegrationTests {
 	 */
 	@Test
 	public void findAllCustomersWithContactsIsSuccessful() {
-		Customer jonDoe = newCustomer("Jon","Doe").with(newAccountNumber()).with(newId());
-		Customer janeDoe = newCustomer("Jane", "Doe").with(newAccountNumber()).with(newId());
-		Customer jackHandy = newCustomer("Jack", "Handy").with(newAccountNumber()).with(newId());
+		Customer jonDoe = newCustomer("Jon","Doe").with(newAccountNumber()).identifiedBy(newId());
+		Customer janeDoe = newCustomer("Jane", "Doe").with(newAccountNumber()).identifiedBy(newId());
+		Customer jackHandy = newCustomer("Jack", "Handy").with(newAccountNumber()).identifiedBy(newId());
 
 		contactRepository.save(newContact(customerRepository.save(jonDoe), "jonDoe@home.com")
-			.with(newPhoneNumber("503", "555", "1234")).with(newId()));
+			.with(newPhoneNumber("503", "555", "1234")).<Contact>identifiedBy(newId()));
 
 		customerRepository.save(janeDoe);
 
 		contactRepository.save(newContact(customerRepository.save(jackHandy), "jackHandy@office.com")
-			.with(newAddress("100 Main St.", "Portland", State.OREGON, "97205")).with(newId()));
+			.with(newAddress("100 Main St.", "Portland", State.OREGON, "97205")).<Contact>identifiedBy(newId()));
 
 		List<Customer> customers = customerRepository.findAllCustomersWithContactInformation();
 
@@ -124,17 +125,17 @@ public class CustomerRepositoryIntegrationTests {
 
 	@Test
 	public void findAllCustomersWithContactsUsingFunctionIsSuccessful() {
-		Customer jonDoe = newCustomer("Jon","Doe").with(newAccountNumber()).with(newId());
-		Customer janeDoe = newCustomer("Jane", "Doe").with(newAccountNumber()).with(newId());
-		Customer jackHandy = newCustomer("Jack", "Handy").with(newAccountNumber()).with(newId());
+		Customer jonDoe = newCustomer("Jon","Doe").with(newAccountNumber()).identifiedBy(newId());
+		Customer janeDoe = newCustomer("Jane", "Doe").with(newAccountNumber()).identifiedBy(newId());
+		Customer jackHandy = newCustomer("Jack", "Handy").with(newAccountNumber()).identifiedBy(newId());
 
 		contactRepository.save(newContact(customerRepository.save(jonDoe), "jonDoe@home.com")
-			.with(newPhoneNumber("503", "555", "1234")).with(newId()));
+			.with(newPhoneNumber("503", "555", "1234")).<Contact>identifiedBy(newId()));
 
 		customerRepository.save(janeDoe);
 
 		contactRepository.save(newContact(customerRepository.save(jackHandy), "jackHandy@office.com")
-			.with(newAddress("100 Main St.", "Portland", State.OREGON, "97205")).with(newId()));
+			.with(newAddress("100 Main St.", "Portland", State.OREGON, "97205")).<Contact>identifiedBy(newId()));
 
 		List<?> results = customerFunctionExecutions.findAllCustomersWithContactInformation();
 

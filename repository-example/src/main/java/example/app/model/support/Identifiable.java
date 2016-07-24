@@ -31,6 +31,12 @@ public interface Identifiable<T> {
 
 	void setId(T id);
 
+	@SuppressWarnings("unchecked")
+	default <S extends Identifiable<T>> S identifiedBy(T id) {
+		setId(id);
+		return (S) this;
+	}
+
 	default boolean isNew() {
 		return (getId() == null);
 	}

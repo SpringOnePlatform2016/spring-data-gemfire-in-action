@@ -244,11 +244,6 @@ public class Contact implements Identifiable<Long>, Serializable {
 				getClass().getName(), getId(), getPerson(), getAddress(), getPhoneNumber(), getEmail());
 	}
 
-	public Contact with(Long id) {
-		setId(id);
-		return this;
-	}
-
 	public Contact with(Address address) {
 		setAddress(address);
 		return this;

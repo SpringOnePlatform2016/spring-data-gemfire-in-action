@@ -62,7 +62,7 @@ public class PersonTests {
 	public void newPersonWithNameBirthDateGenderAndId() {
 		LocalDate birthDate = LocalDate.of(1969, Month.APRIL, 1);
 
-		Person janeDoe = newPerson("Jane", "Doe").as(Gender.FEMALE).born(birthDate).with(1L);
+		Person janeDoe = newPerson("Jane", "Doe").as(Gender.FEMALE).born(birthDate).identifiedBy(1L);
 
 		assertThat(janeDoe).isNotNull();
 		assertThat(janeDoe.getId()).isEqualTo(1L);

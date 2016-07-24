@@ -52,7 +52,7 @@ import example.app.model.support.Identifiable;
  * @since 1.0.0
  */
 @Entity
-@DiscriminatorColumn(name = "person_type")
+@DiscriminatorColumn(name = "type")
 @DiscriminatorValue("person")
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @Table(name = "People")
@@ -207,12 +207,6 @@ public class Person implements Identifiable<Long>, Serializable {
 	@SuppressWarnings("unchecked")
 	public <T extends Person> T born(LocalDate birthDate) {
 		setBirthDate(birthDate);
-		return (T) this;
-	}
-
-	@SuppressWarnings("unchecked")
-	public <T extends Person> T with(Long id) {
-		setId(id);
 		return (T) this;
 	}
 }
