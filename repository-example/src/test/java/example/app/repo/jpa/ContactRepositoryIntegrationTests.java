@@ -29,6 +29,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import example.app.config.jpa.JpaConfiguration;
@@ -51,6 +52,7 @@ import example.app.model.State;
  */
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.NONE, classes = JpaConfiguration.class)
+@DirtiesContext
 @SuppressWarnings("all")
 public class ContactRepositoryIntegrationTests {
 
