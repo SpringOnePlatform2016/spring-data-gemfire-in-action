@@ -22,7 +22,6 @@ import static example.app.model.Customer.newCustomer;
 import static example.app.model.PhoneNumber.newPhoneNumber;
 import static org.assertj.core.api.Assertions.assertThat;
 
-import java.time.LocalDate;
 import java.util.UUID;
 
 import org.junit.Test;
@@ -59,10 +58,6 @@ public class ContactRepositoryIntegrationTests {
 	@Autowired
 	private ContactRepository contactRepository;
 
-	protected LocalDate birthDateFor(int age) {
-		return LocalDate.now().minusYears(age);
-	}
-
 	protected String newAccountNumber() {
 		return UUID.randomUUID().toString();
 	}
@@ -72,7 +67,7 @@ public class ContactRepositoryIntegrationTests {
 		assertThat(contactRepository.count()).isEqualTo(0);
 
 		Customer jonDoe = newCustomer("Jon", "Doe").with(newAccountNumber())
-			.as(Gender.MALE).born(birthDateFor(42));
+			.as(Gender.MALE).age(42);
 
 		Contact expectedContact = newContact(jonDoe, "jonDoe@work.com")
 			.with(newAddress("100 Main St.", "Portland", State.OREGON, "97205"))

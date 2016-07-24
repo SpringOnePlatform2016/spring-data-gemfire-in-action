@@ -99,7 +99,7 @@ public class Person implements Identifiable<Long>, Serializable {
 	@SuppressWarnings("all")
 	public int getAge() {
 		LocalDate birthDate = getBirthDate();
-		Assert.state(birthDate != null, String.format("the birth date of person [%s] is unknown", getName()));
+		Assert.state(birthDate != null, String.format("birth date of person [%s] is unknown", getName()));
 		Period period = Period.between(birthDate, LocalDate.now());
 		return period.getYears();
 	}

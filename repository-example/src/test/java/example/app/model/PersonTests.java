@@ -91,7 +91,7 @@ public class PersonTests {
 
 		exception.expect(IllegalStateException.class);
 		exception.expectCause(is(nullValue(Throwable.class)));
-		exception.expectMessage("the birth date of person [Jon Doe] is unknown");
+		exception.expectMessage("birth date of person [Jon Doe] is unknown");
 
 		jonDoe.getAge();
 	}

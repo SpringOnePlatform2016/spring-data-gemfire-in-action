@@ -22,7 +22,6 @@ import static example.app.model.Person.newPerson;
 import static example.app.model.PhoneNumber.newPhoneNumber;
 import static org.assertj.core.api.Assertions.assertThat;
 
-import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -66,10 +65,6 @@ public class ContactRepositoryIntegrationTests {
 
 	@Resource(name = "Contacts")
 	private Region<Long, Contact> contacts;
-
-	protected LocalDate birthDateFor(int age) {
-		return LocalDate.now().minusYears(age);
-	}
 
 	protected Long newId() {
 		return ID_GENERATOR.incrementAndGet();
@@ -192,18 +187,18 @@ public class ContactRepositoryIntegrationTests {
 
 	@Test
 	public void findByPersonAgeGreaterThanEqualTwentyOne() {
-		Contact jonDoe = save(newContact(newPerson("Jon", "Doe").born(birthDateFor(42)), "jonDoe@work.com"));
-		Contact janeDoe = save(newContact(newPerson("Jane", "Doe").born(birthDateFor(36)), "janeDoe@home.com"));
-		Contact cookieDoe = save(newContact(newPerson("Cookie", "Doe").born(birthDateFor(4)), "cookieDoe@home.com"));
-		Contact pieDoe = save(newContact(newPerson("Pie", "Doe").born(birthDateFor(16)), "pieDoe@school.com"));
-		Contact sourDoe = save(newContact(newPerson("Sour", "Doe").born(birthDateFor(21)), "sourDoe@college.com"));
-		Contact froDoe = save(newContact(newPerson("Fro", "Doe").born(birthDateFor(22)), "froDoe@home.com"));
-		Contact hoeDoe = save(newContact(newPerson("Hoe", "Doe").born(birthDateFor(30)), "hoeDoe@office.com"));
-		Contact joeDoe = save(newContact(newPerson("Joe", "Doe").born(birthDateFor(59)), "joeDoe@beach.com"));
-		Contact jackHandy = save(newContact(newPerson("Jack", "Handy").born(birthDateFor(17)), "jackHandy@home.com"));
-		Contact sandyHandy = save(newContact(newPerson("Sandy", "Handy").born(birthDateFor(9)), "jackHandy@home.com"));
-		Contact joeDirt = save(newContact(newPerson("Joe", "Dirt").born(birthDateFor(29)), "joeDirt@bar.com"));
-		Contact jackBlack = save(newContact(newPerson("Jack", "Black").born(birthDateFor(33)), "jackBlack@home.com"));
+		Contact jonDoe = save(newContact(newPerson("Jon", "Doe").age(42), "jonDoe@work.com"));
+		Contact janeDoe = save(newContact(newPerson("Jane", "Doe").age(36), "janeDoe@home.com"));
+		Contact cookieDoe = save(newContact(newPerson("Cookie", "Doe").age(4), "cookieDoe@home.com"));
+		Contact pieDoe = save(newContact(newPerson("Pie", "Doe").age(16), "pieDoe@school.com"));
+		Contact sourDoe = save(newContact(newPerson("Sour", "Doe").age(21), "sourDoe@college.com"));
+		Contact froDoe = save(newContact(newPerson("Fro", "Doe").age(22), "froDoe@home.com"));
+		Contact hoeDoe = save(newContact(newPerson("Hoe", "Doe").age(30), "hoeDoe@office.com"));
+		Contact joeDoe = save(newContact(newPerson("Joe", "Doe").age(59), "joeDoe@beach.com"));
+		Contact jackHandy = save(newContact(newPerson("Jack", "Handy").age(17), "jackHandy@home.com"));
+		Contact sandyHandy = save(newContact(newPerson("Sandy", "Handy").age(9), "jackHandy@home.com"));
+		Contact joeDirt = save(newContact(newPerson("Joe", "Dirt").age(29), "joeDirt@bar.com"));
+		Contact jackBlack = save(newContact(newPerson("Jack", "Black").age(33), "jackBlack@home.com"));
 
 		List<Contact> contacts = contactRepository.findByPersonAgeGreaterThanEqualOrderByPersonLastNameAscPersonAgeDesc(21);
 
