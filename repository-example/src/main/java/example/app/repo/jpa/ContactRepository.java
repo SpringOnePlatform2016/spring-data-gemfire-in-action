@@ -17,6 +17,7 @@
 package example.app.repo.jpa;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
 import example.app.model.Contact;
 
@@ -30,6 +31,7 @@ import example.app.model.Contact;
  * @since 1.0.0
  */
 @SuppressWarnings("unused")
+@Repository("jpaContactRepository")
 public interface ContactRepository extends JpaRepository<Contact, Long> {
 
 }

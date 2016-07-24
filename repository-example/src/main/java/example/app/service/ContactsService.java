@@ -70,8 +70,10 @@ public class ContactsService {
 	public Contact save(Contact contact) {
 		Assert.notNull(contact, "Contact cannot be null");
 
-		return getGemFireContactRepository().save(getJpaContactRepository().save(
-			validatePhoneNumber(validateEmail(validateAddress(contact)))));
+		// NOTE reverse the order of the persistent operations with the validation
+		// in order to test global (JTA-based) transaction
+		return validatePhoneNumber(validateEmail(validateAddress(
+			getGemFireContactRepository().save(getJpaContactRepository().save(contact)))));
 	}
 
 	@Transactional

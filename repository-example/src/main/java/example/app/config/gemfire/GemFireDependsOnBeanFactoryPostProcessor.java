@@ -21,12 +21,15 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
+import com.gemstone.gemfire.cache.Cache;
 import com.gemstone.gemfire.cache.GemFireCache;
+import com.gemstone.gemfire.cache.client.ClientCache;
 
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.beans.factory.config.BeanFactoryPostProcessor;
 import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
+import org.springframework.data.gemfire.config.GemfireConstants;
 
 /**
  * The GemFireDependsOnBeanFactoryPostProcessor class is a Spring {@link BeanFactoryPostProcessor} that adds
@@ -35,6 +38,9 @@ import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
  * @author John Blum
  * @see org.springframework.beans.factory.config.BeanFactoryPostProcessor
  * @see org.springframework.beans.factory.config.ConfigurableListableBeanFactory
+ * @see com.gemstone.gemfire.cache.Cache
+ * @see com.gemstone.gemfire.cache.GemFireCache
+ * @see com.gemstone.gemfire.cache.client.ClientCache
  * @since 1.0.0
  */
 public class GemFireDependsOnBeanFactoryPostProcessor implements BeanFactoryPostProcessor {
@@ -64,6 +70,16 @@ public class GemFireDependsOnBeanFactoryPostProcessor implements BeanFactoryPost
 	}
 
 	String[] gemfireCacheBeanNames(ConfigurableListableBeanFactory beanFactory) {
-		return beanFactory.getBeanNamesForType(GemFireCache.class, true, false);
+		List<String> gemfireCacheBeanNames = new ArrayList<>();
+
+		for (Class<?> gemfireCacheType : Arrays.asList(GemFireCache.class, Cache.class, ClientCache.class)) {
+			gemfireCacheBeanNames.addAll(Arrays.asList(beanFactory.getBeanNamesForType(gemfireCacheType, true, false)));
+		}
+
+		if (gemfireCacheBeanNames.isEmpty()) {
+			gemfireCacheBeanNames.add(GemfireConstants.DEFAULT_GEMFIRE_CACHE_NAME);
+		}
+
+		return gemfireCacheBeanNames.toArray(new String[gemfireCacheBeanNames.size()]);
 	}
 }
