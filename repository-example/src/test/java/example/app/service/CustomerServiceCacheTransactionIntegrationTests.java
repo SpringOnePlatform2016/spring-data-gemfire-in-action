@@ -50,7 +50,7 @@ import example.app.repo.gemfire.CustomerRepository;
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.NONE,
 	classes = LocalTransactionApplicationConfiguration.class)
 @SuppressWarnings("unused")
-public class CustomerServiceIntegrationTests {
+public class CustomerServiceCacheTransactionIntegrationTests {
 
 	@Rule
 	public ExpectedException exception = ExpectedException.none();
