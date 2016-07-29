@@ -16,6 +16,7 @@
 	<packaging>pom</packaging>
 
 	<modules>
+		<module>configuration-example</module>
 		<module>repository-example</module>
 	</modules>
 
@@ -92,11 +93,12 @@
 		<maven-surefire-plugin.version>2.19.1</maven-surefire-plugin.version>
 		<multithreadedtc.version>1.01</multithreadedtc.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<spring-data-gemfire.version>1.9.0.BUILD-SNAPSHOT</spring-data-gemfire.version>
 		<spring-data-geode.version>1.0.0.APACHE-GEODE-INCUBATING-M2</spring-data-geode.version>
 <!--
-		<spring-data-geode.version>1.0.0.APACHE-GEODE-INCUBATING-SNAPSHOT</spring-data-geode.version>
+		<spring-data-geode.version>1.0.0.APACHE-GEODE-INCUBATING-M3-SNAPSHOT</spring-data-geode.version>
 -->
-		<spring-shell.version>1.0.0.RELEASE</spring-shell.version>
+		<spring-shell.version>1.1.0.RELEASE</spring-shell.version>
 	</properties>
 
 	<repositories>
@@ -132,10 +134,9 @@
 	<dependencyManagement>
 		<dependencies>
 			<dependency>
-				<groupId>edu.umd.cs.mtc</groupId>
-				<artifactId>multithreadedtc</artifactId>
-				<version>${multithreadedtc.version}</version>
-				<scope>test</scope>
+				<groupId>org.springframework.data</groupId>
+				<artifactId>spring-data-gemfire</artifactId>
+				<version>${spring-data-gemfire.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>org.springframework.data</groupId>
@@ -157,6 +158,12 @@
 				<artifactId>spring-shell</artifactId>
 				<version>${spring-shell.version}</version>
 				<scope>runtime</scope>
+			</dependency>
+			<dependency>
+				<groupId>edu.umd.cs.mtc</groupId>
+				<artifactId>multithreadedtc</artifactId>
+				<version>${multithreadedtc.version}</version>
+				<scope>test</scope>
 			</dependency>
 		</dependencies>
 	</dependencyManagement>
