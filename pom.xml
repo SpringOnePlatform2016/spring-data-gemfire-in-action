@@ -8,7 +8,7 @@
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>1.4.0.RC1</version>
+		<version>1.4.0.RELEASE</version>
 	</parent>
 	<groupId>io.springoneplatform.2016</groupId>
 	<artifactId>actionable-spring-gemfire-applications</artifactId>
