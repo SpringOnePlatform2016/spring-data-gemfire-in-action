@@ -24,6 +24,8 @@ import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import org.springframework.data.annotation.Id;
 import org.springframework.util.Assert;
 import org.springframework.util.ObjectUtils;
@@ -42,6 +44,7 @@ import example.app.model.support.Identifiable;
  * @since 1.0.0
  */
 @Entity
+@JsonIgnoreProperties(value = { "new", "notNew" }, ignoreUnknown = true)
 @SuppressWarnings("unused")
 public class PhoneNumber implements Identifiable<Long>, Serializable {
 

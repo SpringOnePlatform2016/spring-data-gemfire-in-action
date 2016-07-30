@@ -33,6 +33,8 @@ import javax.persistence.InheritanceType;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import org.springframework.data.annotation.Id;
 import org.springframework.data.gemfire.mapping.Region;
 import org.springframework.util.Assert;
@@ -57,6 +59,7 @@ import example.app.model.support.Identifiable;
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @Table(name = "People")
 @Region("People")
+@JsonIgnoreProperties(value = { "new", "notNew" }, ignoreUnknown = true)
 @SuppressWarnings("unused")
 public class Person implements Identifiable<Long>, Serializable {
 

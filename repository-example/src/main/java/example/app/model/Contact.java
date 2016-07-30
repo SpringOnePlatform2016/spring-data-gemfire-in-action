@@ -27,6 +27,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import org.springframework.data.annotation.Id;
 import org.springframework.data.gemfire.mapping.Region;
 import org.springframework.util.Assert;
@@ -53,6 +55,7 @@ import example.app.model.support.Identifiable;
 @Entity
 @Region("Contacts")
 @Table(name = "Contacts")
+@JsonIgnoreProperties(value = { "new", "notNew" }, ignoreUnknown = true)
 @SuppressWarnings("unused")
 public class Contact implements Identifiable<Long>, Serializable {
 
