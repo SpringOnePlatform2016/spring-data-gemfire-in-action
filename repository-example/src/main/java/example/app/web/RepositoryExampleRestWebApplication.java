@@ -21,13 +21,21 @@ import static example.app.model.Contact.newContact;
 import static example.app.model.Person.newPerson;
 import static example.app.model.PhoneNumber.newPhoneNumber;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Import;
+import org.springframework.core.convert.support.ConfigurableConversionService;
+import org.springframework.data.rest.webmvc.config.RepositoryRestConfigurer;
+import org.springframework.data.rest.webmvc.config.RepositoryRestConfigurerAdapter;
 
 import example.app.config.ApplicationConfiguration;
+import example.app.core.convert.converter.StringToPhoneNumberConverter;
+import example.app.core.mapping.json.jackson.serialization.LocalDateDeserializer;
 import example.app.model.Contact;
 import example.app.model.Gender;
 import example.app.model.State;
@@ -58,12 +66,27 @@ public class RepositoryExampleRestWebApplication implements CommandLineRunner {
 		SpringApplication.run(RepositoryExampleRestWebApplication.class, args);
 	}
 
+	@Bean
+	RepositoryRestConfigurer repositoryRestConfigurer() {
+		return new RepositoryRestConfigurerAdapter() {
+			@Override public void configureJacksonObjectMapper(ObjectMapper objectMapper) {
+				super.configureJacksonObjectMapper(objectMapper);
+				LocalDateDeserializer.register(objectMapper);
+			}
+
+			@Override public void configureConversionService(ConfigurableConversionService conversionService) {
+				super.configureConversionService(conversionService);
+				conversionService.addConverter(StringToPhoneNumberConverter.INSTANCE);
+			}
+		};
+	}
+
 	@Autowired
 	private ContactRepository contactRepository;
 
 	@Override
 	public void run(String... args) throws Exception {
-		Contact jonDoe = newContact(newPerson("Jon", "Doe").as(Gender.MALE).age(21), "jonDoe@work.com")
+		Contact jonDoe = newContact(newPerson("Jon", "Doe").as(Gender.MALE).age(42), "jonDoe@work.com")
 			.with(newAddress("100 Main St.", "Portland", State.OREGON, "97205"))
 			.with(newPhoneNumber("503", "541", "1234"))
 			.identifiedBy(1L);
