@@ -14,7 +14,7 @@
  * permissions and limitations under the License.
  */
 
-package example.app.mapping.json;
+package example.app.core.mapping.json.jackson.serialization;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -29,7 +29,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Test;
 import org.springframework.core.io.ClassPathResource;
 
-import example.app.core.mapping.json.jackson.serialization.LocalDateDeserializer;
 import example.app.model.Address;
 import example.app.model.Contact;
 import example.app.model.Gender;
@@ -144,7 +143,7 @@ public class JsonToObjectMappingIntegrationTests {
 		System.err.printf("Contact is [%s]%n", contact);
 
 		assertThat(contact).isNotNull();
-		assertThat(contact.getId()).isEqualTo(2L);
+		assertThat(contact.getId()).isEqualTo(3L);
 		assertThat(contact.getEmail()).isEqualTo("pieDoe@springone.com");
 
 		Person pieDoe = contact.getPerson();
