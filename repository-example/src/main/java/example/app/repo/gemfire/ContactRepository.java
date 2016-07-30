@@ -23,6 +23,7 @@ import org.springframework.data.gemfire.repository.GemfireRepository;
 import org.springframework.data.gemfire.repository.query.annotation.Hint;
 import org.springframework.data.gemfire.repository.query.annotation.Limit;
 import org.springframework.data.gemfire.repository.query.annotation.Trace;
+import org.springframework.data.repository.query.Param;
 
 import example.app.model.Contact;
 import example.app.model.Gender;
@@ -42,38 +43,38 @@ import example.app.model.State;
 public interface ContactRepository extends GemfireRepository<Contact, Long> {
 
 	@Trace
-	List<Contact> findByAddressCityAndAddressState(String city, State state);
+	List<Contact> findByAddressCityAndAddressState(@Param("city") String city, @Param("state") State state);
 
 	@Trace
 	@Hint("EmailIdx")
-	Contact findByEmail(String email);
+	Contact findByEmail(@Param ("email") String email);
 
 	@Trace
-	List<Contact> findByEmailLike(String emailWildcard);
+	List<Contact> findByEmailLike(@Param("email") String emailWildcard);
 
 	@Trace
-	List<Contact> findByPersonAgeGreaterThanEqualOrderByPersonLastNameAscPersonAgeDesc(int age);
+	List<Contact> findByPersonAgeGreaterThanEqualOrderByPersonLastNameAscPersonAgeDesc(@Param("age") int age);
 
 	@Trace
-	List<Contact> findByPersonGender(Gender gender);
+	List<Contact> findByPersonGender(@Param("gender") Gender gender);
 
 	@Trace
 	//@Query("SELECT * FROM /Contacts c WHERE c.person.firstName.equalsIgnoreCase($1) AND c.person.lastName.equalsIgnoreCase($2)")
 	//@Query("SELECT * FROM /Contacts c WHERE c.person.firstName.toLowerCase LIKE $1 AND c.person.lastName.toLowerCase LIKE $2")
-	List<Contact> findByPersonFirstNameIgnoreCaseAndPersonLastNameIgnoreCase(String firstName, String lastName);
+	List<Contact> findByPersonFirstNameIgnoreCaseAndPersonLastNameIgnoreCase(@Param("firstName") String firstName, @Param("lastName") String lastName);
 
 	@Trace
-	Contact findByPersonId(Long id);
+	Contact findByPersonId(@Param("id") Long id);
 
 	@Trace
 	@Hint("PersonLastNameIdx")
-	List<Contact> findByPersonLastName(String lastName);
+	List<Contact> findByPersonLastName(@Param("lastName") String lastName);
 
 	@Trace
 	@Limit(5)
-	List<Contact> findByPersonLastNameLike(String lastNameWildcard, Sort sort);
+	List<Contact> findByPersonLastNameLike(@Param("lastName") String lastNameWildcard, @Param("sort") Sort sort);
 
 	@Trace
-	List<Contact> findByPhoneNumber(PhoneNumber phoneNumber);
+	List<Contact> findByPhoneNumber(@Param("phoneNumber") PhoneNumber phoneNumber);
 
 }
