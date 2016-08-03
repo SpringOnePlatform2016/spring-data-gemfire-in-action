@@ -27,10 +27,6 @@ import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicLong;
 
-import javax.annotation.Resource;
-
-import com.gemstone.gemfire.cache.Region;
-
 import org.junit.After;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -63,9 +59,6 @@ public class ContactRepositoryIntegrationTests {
 	@Autowired
 	private ContactRepository contactRepository;
 
-	@Resource(name = "Contacts")
-	private Region<Long, Contact> contacts;
-
 	protected Long newId() {
 		return ID_GENERATOR.incrementAndGet();
 	}
@@ -75,7 +68,7 @@ public class ContactRepositoryIntegrationTests {
 	}
 
 	protected Contact save(Contact contact) {
-		if (contact.getId() == null) {
+		if (contact.isNew()) {
 			contact.setId(newId());
 		}
 

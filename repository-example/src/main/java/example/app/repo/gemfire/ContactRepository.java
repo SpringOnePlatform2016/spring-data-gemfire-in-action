@@ -64,6 +64,9 @@ public interface ContactRepository extends GemfireRepository<Contact, Long> {
 	List<Contact> findByPersonFirstNameIgnoreCaseAndPersonLastNameIgnoreCase(@Param("firstName") String firstName, @Param("lastName") String lastName);
 
 	@Trace
+	List<Contact> findByPersonFirstNameAndPersonLastNameAllIgnoreCase(@Param("firstName") String firstName, @Param("lastName") String lastName);
+
+	@Trace
 	Contact findByPersonId(@Param("id") Long id);
 
 	@Trace
