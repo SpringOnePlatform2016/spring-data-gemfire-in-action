@@ -1,0 +1,7 @@
+start locator --name=locator1 --port=10334
+start locator --name=locator2 --port=10335
+start server --name=server1 --server-port=0
+start server --name=server2 --server-port=0
+start server --name=server3 --server-port=0
+start server --name=server4 --server-port=0
+create region --name=customer --type=REPLICATE

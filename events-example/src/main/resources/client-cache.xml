@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:gfe-data="http://www.springframework.org/schema/data/gemfire"
+	xmlns:gfe="http://www.springframework.org/schema/gemfire"
+	xmlns:cache="http://www.springframework.org/schema/cache"
+	xsi:schemaLocation="http://www.springframework.org/schema/cache http://www.springframework.org/schema/cache/spring-cache-4.3.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/data/gemfire http://www.springframework.org/schema/data/gemfire/spring-data-gemfire-1.8.xsd
+		http://www.springframework.org/schema/gemfire http://www.springframework.org/schema/gemfire/spring-gemfire-1.8.xsd">
+
+	<gfe:client-cache/>
+
+	<gfe:client-region id="customer"/>
+	
+	<gfe:pool id="gemfirePool" subscription-enabled="true">
+		<gfe:locator host="127.0.0.1" port="10334" />
+	</gfe:pool>
+	
+	<gfe:cq-listener-container id="myCQ">
+		<gfe:listener ref="cqListener" query="${cqQuery}"/>
+	</gfe:cq-listener-container>
+
+</beans>

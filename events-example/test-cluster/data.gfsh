@@ -1,0 +1,6 @@
+put --region=customer --key="1" --value="one"
+put --region=customer --key="2" --value="two"
+put --region=customer --key="3" --value="three"
+put --region=customer --key="4" --value="four"
+put --region=customer --key="5" --value="five"
+put --region=customer --key="6" --value="six"
