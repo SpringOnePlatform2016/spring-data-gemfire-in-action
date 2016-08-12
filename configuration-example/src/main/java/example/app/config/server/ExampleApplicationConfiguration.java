@@ -71,13 +71,13 @@ public class ExampleApplicationConfiguration {
 	@Bean
 	@SuppressWarnings("unchecked")
 	RegionAttributesFactoryBean exampleRegionAttributes(EvictionAttributes exampleEvictionAttributes,
-		ExpirationAttributes expirationAttributes) {
+		ExpirationAttributes exampleExpirationAttributes) {
 
 		RegionAttributesFactoryBean exampleRegionAttributes = new RegionAttributesFactoryBean();
 
 		exampleRegionAttributes.setCloningEnabled(false);
 		exampleRegionAttributes.setEvictionAttributes(exampleEvictionAttributes);
-		exampleRegionAttributes.setEntryIdleTimeout(expirationAttributes);
+		exampleRegionAttributes.setEntryIdleTimeout(exampleExpirationAttributes);
 		exampleRegionAttributes.setInitialCapacity(101);
 		exampleRegionAttributes.setKeyConstraint(String.class);
 		exampleRegionAttributes.setLoadFactor(0.75f);
