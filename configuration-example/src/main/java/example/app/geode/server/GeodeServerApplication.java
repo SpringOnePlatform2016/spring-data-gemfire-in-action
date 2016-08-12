@@ -86,15 +86,31 @@ public class GeodeServerApplication implements Runnable {
 
 	private final List<String> arguments;
 
+	/**
+	 * Constructs an instance of the {@link GeodeServerApplication} class to configure and fork/launch
+	 * an Apache Geode data server node.
+	 *
+	 * @param args {@link String} array of program arguments.
+	 * @throws NullPointerException if the program arguments are null.
+	 * @see #GeodeServerApplication(List)
+	 */
 	public GeodeServerApplication(String[] args) {
 		this(Arrays.asList(args));
 	}
 
+	/**
+	 * Constructs an instance of the {@link GeodeServerApplication} class to configure and fork/launch
+	 * an Apache Geode data server node.
+	 *
+	 * @param args {@link List} of program arguments.
+	 * @throws IllegalArgumentException if the program arguments are null.
+	 */
 	public GeodeServerApplication(List<String> args) {
 		Assert.notNull(args, "Program argument must be be null");
 		this.arguments = args;
 	}
 
+	/* (non-Javadoc) */
 	@Override
 	public void run() {
 		run(arguments);
@@ -104,21 +120,29 @@ public class GeodeServerApplication implements Runnable {
 		Cache gemfireCache = null;
 
 		try {
-			if (arguments != null && arguments.size() > 0) {
+			if (hasArguments(arguments)) {
 				cacheXmlDriven.set(true);
 				gemfireCache = gemfireCache(gemfireProperties(), arguments.get(0));
 			}
 			else {
 				gemfireCache = gemfireCache(gemfireProperties());
-
-				gemfireCacheServer(gemfireCache);
-				echoRegion(gemfireCache);
 			}
+
+			gemfireCacheServer(gemfireCache);
+			echoRegion(gemfireCache);
 		}
 		catch (Exception uhOh) {
 			uhOh.printStackTrace(System.err);
 			close(gemfireCache);
 		}
+	}
+
+	boolean hasArguments(Object... arguments) {
+		return (arguments != null && arguments.length > 0);
+	}
+
+	boolean hasArguments(List<?> arguments) {
+		return (arguments != null && !arguments.isEmpty());
 	}
 
 	boolean close(GemFireCache cache) {
