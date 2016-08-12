@@ -84,6 +84,7 @@ public class GemFireConfiguration {
 	}
 
 	@Bean(name = "Contacts")
+	//@DependsOn("Customers")
 	public PartitionedRegionFactoryBean<Long, Contact> contactsRegion(GemFireCache gemfireCache,
 			@Qualifier("contactsRegionAttributes") RegionAttributes<Long, Contact> contactsRegionAttributes) {
 
