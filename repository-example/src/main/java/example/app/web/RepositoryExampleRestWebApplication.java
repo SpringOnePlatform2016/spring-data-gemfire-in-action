@@ -18,7 +18,7 @@ package example.app.web;
 
 import static example.app.model.Address.newAddress;
 import static example.app.model.Contact.newContact;
-import static example.app.model.Person.newPerson;
+import static example.app.model.Customer.newCustomer;
 import static example.app.model.PhoneNumber.newPhoneNumber;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -37,9 +37,11 @@ import example.app.config.ApplicationConfiguration;
 import example.app.core.convert.converter.StringToPhoneNumberConverter;
 import example.app.core.mapping.json.jackson.serialization.LocalDateDeserializer;
 import example.app.model.Contact;
+import example.app.model.Customer;
 import example.app.model.Gender;
 import example.app.model.State;
 import example.app.repo.gemfire.ContactRepository;
+import example.app.repo.gemfire.CustomerRepository;
 
 /**
  * The RepositoryExampleRestWebApplication class is a {@link SpringBootApplication} demonstrating how to make
@@ -50,8 +52,12 @@ import example.app.repo.gemfire.ContactRepository;
  * @see org.springframework.boot.SpringApplication
  * @see org.springframework.boot.autoconfigure.SpringBootApplication
  * @see example.app.config.ApplicationConfiguration
+ * @see example.app.model.Address
  * @see example.app.model.Contact
+ * @see example.app.model.Customer
+ * @see example.app.model.PhoneNumber
  * @see example.app.repo.gemfire.ContactRepository
+ * @see example.app.repo.gemfire.CustomerRepository
  * @link http://projects.spring.io/spring-data-gemfire
  * @link http://projects.spring.io/spring-data-rest
  * @link https://spring.io/guides/gs/accessing-gemfire-data-rest/
@@ -84,13 +90,20 @@ public class RepositoryExampleRestWebApplication implements CommandLineRunner {
 	@Autowired
 	private ContactRepository contactRepository;
 
+	@Autowired
+	private CustomerRepository customerRepository;
+
 	@Override
 	public void run(String... args) throws Exception {
-		Contact jonDoe = newContact(newPerson("Jon", "Doe").as(Gender.MALE).age(42), "jonDoe@work.com")
+		Customer jonDoe = newCustomer("Jon", "Doe").with("123").as(Gender.MALE).age(42).identifiedBy(1L);
+
+		customerRepository.save(jonDoe);
+
+		Contact jonDoeContact = newContact(jonDoe, "jonDoe@work.com")
 			.with(newAddress("100 Main St.", "Portland", State.OREGON, "97205"))
 			.with(newPhoneNumber("503", "541", "1234"))
 			.identifiedBy(1L);
 
-		contactRepository.save(jonDoe);
+		contactRepository.save(jonDoeContact);
 	}
 }
