@@ -52,8 +52,8 @@ import example.app.model.support.Identifiable;
  * @see example.app.model.support.Identifiable
  * @since 1.0.0
  */
-@Entity
 @Region("Contacts")
+@Entity
 @Table(name = "Contacts")
 @JsonIgnoreProperties(value = { "new", "notNew" }, ignoreUnknown = true)
 @SuppressWarnings("unused")
