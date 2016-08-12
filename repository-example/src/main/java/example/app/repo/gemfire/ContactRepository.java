@@ -20,12 +20,14 @@ import java.util.List;
 
 import org.springframework.data.domain.Sort;
 import org.springframework.data.gemfire.repository.GemfireRepository;
+import org.springframework.data.gemfire.repository.Query;
 import org.springframework.data.gemfire.repository.query.annotation.Hint;
 import org.springframework.data.gemfire.repository.query.annotation.Limit;
 import org.springframework.data.gemfire.repository.query.annotation.Trace;
 import org.springframework.data.repository.query.Param;
 
 import example.app.model.Contact;
+import example.app.model.Customer;
 import example.app.model.Gender;
 import example.app.model.PhoneNumber;
 import example.app.model.State;
@@ -79,5 +81,10 @@ public interface ContactRepository extends GemfireRepository<Contact, Long> {
 
 	@Trace
 	List<Contact> findByPhoneNumber(@Param("phoneNumber") PhoneNumber phoneNumber);
+
+	@Query("SELECT DISTINCT customer"
+		+ " FROM /Customers customer, /Contacts contact"
+		+ " WHERE customer.firstName = contact.person.firstName AND customer.lastName = contact.person.lastName")
+	List<Customer> findAllCustomersWithContactInformation();
 
 }
