@@ -1,0 +1,8 @@
+---
+applications:
+- name: events-example
+  memory: 1G
+  host: events-example
+  instances: 1
+  path: target/events-example-0.0.1-SNAPSHOT.jar
+  buildpack: https://github.com/cloudfoundry/java-buildpack.git

@@ -27,13 +27,12 @@ public class EndPoints {
 		heroes.put("josh", "starbuxman");
 		heroes.put("stu", "svrc");
 		heroes.put("dormain", "DormainDrewitz");
-		heroes.put("cornelia", "cdavisafc");
-		heroes.put("saman", "err_sage");
-		heroes.put("casey", "caseywest");
-		heroes.put("kenny", "kennybastani");
-		heroes.put("jim", "JavaFXpert");
-		heroes.put("mark", "MkHeck");
-		heroes.put("bridgette", "bridgetkromhout");
+		heroes.put("cornelia", "caseywest");
+		heroes.put("saman", "kennybastani");
+		heroes.put("casey", "MkHeck");
+		heroes.put("kenny", "JavaFXpert");
+		heroes.put("jim", "cdavisafc");
+		heroes.put("mark", "err_sage");
 	}
 	
 	@Cacheable(cacheNames = "hero")

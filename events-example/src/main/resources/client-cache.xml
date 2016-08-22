@@ -14,7 +14,7 @@
 	<gfe:client-region id="customer"/>
 	
 	<gfe:pool id="gemfirePool" subscription-enabled="true">
-		<gfe:locator host="127.0.0.1" port="10334" />
+		<gfe:locator host="192.168.69.1" port="10334" />
 	</gfe:pool>
 	
 	<gfe:cq-listener-container id="myCQ">

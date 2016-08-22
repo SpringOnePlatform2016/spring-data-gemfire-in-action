@@ -69,7 +69,7 @@
 		</repository>
 		<!-- Geode is here -->
 		<repository>
-			<id>spring-release</id>
+			<id>spring-libs-snapshot</id>
 			<name>Spring Maven RELEASE Repository</name>
 			<url>http://repo.spring.io/libs-snapshot</url>
 		</repository>

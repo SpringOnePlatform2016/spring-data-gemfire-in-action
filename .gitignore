@@ -7,3 +7,27 @@ target/
 *.classpath
 
 caching-example/logs
+events-example/test-cluster/apache-geode-1.0.0-incubating.M2
+.cleanup.sh.swp
+apache-geode-1.0.0-incubating.M2.tar.gz
+cluster-troubleshoot-example/cacheserver1
+cluster-troubleshoot-example/locator0/locator
+cluster-troubleshoot-example/locator0
+locator0.zip
+locator1.zip
+logs.zip
+segments.gen
+segments_1
+write.lock
+events-example.zip
+cacheserver2.zip
+cacheserver1.zip
+cacheserver0.zip
+.recommenders
+events-example/test-cluster
+caching-example.zip
+cluster-troubleshoot-example/logs/locator0
+caching-example-no-cache/logs/cacheserver0
+cluster-troubleshoot-example/logs/cacheserver0
+login-diamond.sh
+login-gemfirepcf.sh

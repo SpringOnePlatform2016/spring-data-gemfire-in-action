@@ -1,12 +1,12 @@
 #!/bin/bash
 echo "";
-echo "   _   _   _   _   _     _   _   _   _  ";
-echo "  / \ / \ / \ / \ / \   / \ / \ / \ / \ ";
-echo " ( G | e | o | d | e ) ( D | e | m | o )";
-echo "  \_/ \_/ \_/ \_/ \_/   \_/ \_/ \_/ \_/ ";
-echo "Built for Geode Incubating M2 for SpringPlatform 2016";
 echo "";
-
+echo "   _   _     _   _   _   _   _   _     _   _     _   _   _   _   _   _  ";
+echo "  / \ / \   / \ / \ / \ / \ / \ / \   / \ / \   / \ / \ / \ / \ / \ / \ ";
+echo " ( I | n ) ( M | e | m | o | r | y ) ( I | n ) ( A | c | t | i | o | n )";
+echo "  \_/ \_/   \_/ \_/ \_/ \_/ \_/ \_/   \_/ \_/   \_/ \_/ \_/ \_/ \_/ \_/ ";
+echo "SpringOne Platform 2016";
+echo "";
 #Check for Java
 if [ -n "$JAVA_HOME" ]; then
 		echo "Using JAVA_HOME: $JAVA_HOME"
