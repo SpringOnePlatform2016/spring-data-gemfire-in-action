@@ -62,7 +62,7 @@ public class BootGeodeServerApplication {
 	}
 
 	@Bean
-	PropertySourcesPlaceholderConfigurer propertySourcesPlaceholderConfigurer() {
+	static PropertySourcesPlaceholderConfigurer propertySourcesPlaceholderConfigurer() {
 		return new PropertySourcesPlaceholderConfigurer();
 	}
 

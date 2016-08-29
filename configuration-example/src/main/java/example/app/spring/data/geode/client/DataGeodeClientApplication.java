@@ -27,6 +27,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Import;
 import org.springframework.data.gemfire.config.annotation.ClientCacheApplication;
+import org.springframework.data.gemfire.config.annotation.EnableSsl;
 
 import example.app.config.client.EchoClientApplicationConfiguration;
 import example.app.spring.data.geode.server.DataGeodeServerApplication;
@@ -48,6 +49,12 @@ import example.app.spring.data.geode.server.DataGeodeServerApplication;
  */
 @SpringBootApplication
 @ClientCacheApplication(servers = { @ClientCacheApplication.Server(port = DataGeodeServerApplication.GEODE_CACHE_SERVER_PORT)})
+@EnableSsl(components = { EnableSsl.Component.SERVER },
+	keystore = "/Users/jblum/pivdev/springonePlatform-2016/configuration-example/etc/geode/security/trusted.keystore",
+	keystorePassword = "s3cr3t",
+	keystoreType = "JKS",
+	truststore = "/Users/jblum/pivdev/springonePlatform-2016/configuration-example/etc/geode/security/trusted.keystore",
+	truststorePassword = "s3cr3t")
 @Import(EchoClientApplicationConfiguration.class)
 @SuppressWarnings("all")
 public class DataGeodeClientApplication implements CommandLineRunner {

@@ -20,8 +20,11 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Import;
 import org.springframework.data.gemfire.config.annotation.CacheServerApplication;
-import org.springframework.data.gemfire.config.annotation.EnableEmbeddedLocator;
-import org.springframework.data.gemfire.config.annotation.EnableEmbeddedManager;
+import org.springframework.data.gemfire.config.annotation.EnableCacheServer;
+import org.springframework.data.gemfire.config.annotation.EnableCacheServers;
+import org.springframework.data.gemfire.config.annotation.EnableLocator;
+import org.springframework.data.gemfire.config.annotation.EnableManager;
+import org.springframework.data.gemfire.config.annotation.EnableSsl;
 
 import example.app.config.server.EchoServerApplicationConfiguration;
 
@@ -35,15 +38,22 @@ import example.app.config.server.EchoServerApplicationConfiguration;
  * @see org.springframework.boot.autoconfigure.SpringBootApplication
  * @see org.springframework.context.annotation.Import
  * @see org.springframework.data.gemfire.config.annotation.CacheServerApplication
- * @see org.springframework.data.gemfire.config.annotation.EnableEmbeddedLocator
- * @see org.springframework.data.gemfire.config.annotation.EnableEmbeddedManager
+ * @see org.springframework.data.gemfire.config.annotation.EnableLocator
+ * @see org.springframework.data.gemfire.config.annotation.EnableManager
  * @see example.app.config.server.EchoServerApplicationConfiguration
  * @since 1.0.0
  */
 @SpringBootApplication
-@EnableEmbeddedLocator
-@EnableEmbeddedManager(jmxManagerStart = true)
 @CacheServerApplication(name = "DataGeodeServerApplication", port = DataGeodeServerApplication.GEODE_CACHE_SERVER_PORT)
+@EnableCacheServers(servers = { @EnableCacheServer(port = 12480), @EnableCacheServer(port = 40404) })
+@EnableLocator
+@EnableManager(jmxManagerStart = true)
+@EnableSsl(components = { EnableSsl.Component.SERVER },
+	keystore = "/Users/jblum/pivdev/springonePlatform-2016/configuration-example/etc/geode/security/trusted.keystore",
+	keystorePassword = "s3cr3t",
+	keystoreType = "JKS",
+	truststore = "/Users/jblum/pivdev/springonePlatform-2016/configuration-example/etc/geode/security/trusted.keystore",
+	truststorePassword = "s3cr3t")
 @Import(EchoServerApplicationConfiguration.class)
 public class DataGeodeServerApplication {
 
